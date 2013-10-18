@@ -9,11 +9,11 @@ Pod::Spec.new do |s|
   s.source       = { :git => "https://github.com/jbmorley/ISUtilities.git", :commit => "1b8f0d8c643203f2a33bbedde8466793a24a074c" }
 
   s.subspec 'Extensions' do |ss|
-    ss.source_files = 'extensions/*.{h,m}'
+    ss.source_files = 'Extensions/*.{h,m}'
   end
 
   s.subspec 'Utilities' do |ss|
-    ss.source_files = 'utilities/*.{h,m}'
+    ss.source_files = 'Utilities/*.{h,m}'
   end
 
   s.requires_arc = true
