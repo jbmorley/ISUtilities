@@ -13,7 +13,7 @@ Pod::Spec.new do |s|
   end
 
   s.subspec 'Utilities' do |ss|
-    ss.source_files = 'Utilities/*.{h,m}'
+    ss.source_files = 'Notifier/*.{h,m}'
   end
 
   s.subspec 'Controls' do |ss|
