@@ -16,6 +16,10 @@ Pod::Spec.new do |s|
     ss.source_files = 'Utilities/*.{h,m}'
   end
 
+  s.subspec 'Controls' do |ss|
+    ss.source_files = 'Controls/*.{h,m}'
+  end
+
   s.requires_arc = true
 
   s.platform = :ios, "6.0", :osx, "10.8"
