@@ -8,17 +8,7 @@ Pod::Spec.new do |s|
   s.author       = { "Jason Barrie Morley" => "jason.morley@inseven.co.uk" }
   s.source       = { :git => "https://github.com/jbmorley/ISUtilities.git", :commit => "1b8f0d8c643203f2a33bbedde8466793a24a074c" }
 
-  s.subspec 'Extensions' do |ss|
-    ss.source_files = 'Extensions/*.{h,m}'
-  end
-
-  s.subspec 'Utilities' do |ss|
-    ss.source_files = 'Notifier/*.{h,m}'
-  end
-
-  s.subspec 'Controls' do |ss|
-    ss.source_files = 'Controls/*.{h,m}'
-  end
+  s.source_files = 'Classes/*.{h,m}'
 
   s.requires_arc = true
 
