@@ -1,10 +1,4 @@
-//
-//  NSString+MD5.m
-//  Popcorn
-//
-//  Created by Jason Barrie Morley on 12/08/2013.
-//
-//
+// Copyright iOSDeveloperTips.com All rights reserved.
 
 #import "NSString+MD5.h"
 #import <CommonCrypto/CommonDigest.h>
