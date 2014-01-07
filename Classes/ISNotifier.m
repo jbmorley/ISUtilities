@@ -49,7 +49,9 @@
 
 - (void) addObserver:(id)observer
 {
-  [self.observers addObject:observer];
+  if (![self.observers containsObject:observer]) {
+    [self.observers addObject:observer];
+  }
 }
 
 

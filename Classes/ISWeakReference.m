@@ -41,4 +41,16 @@
 }
 
 
+- (BOOL)isEqual:(id)object
+{
+  if (object == self) {
+    return YES;
+  } else if ([object class] == [self class]) {
+    ISWeakReference *otherObject = (ISWeakReference *)object;
+    return [otherObject.object isEqual:self.object];
+  }
+  return [super isEqual:object];
+}
+
+
 @end

@@ -10,6 +10,7 @@
 
 @interface ISCleanup ()
 
+@property (nonatomic) BOOL complete;
 @property (nonatomic, copy) ISCleanupBlock block;
 
 @end
@@ -27,15 +28,30 @@
 {
   self = [super init];
   if (self) {
+    self.complete = NO;
     self.block = block;
   }
   return self;
 }
 
 
+- (void)performCleanup
+{
+  if (!self.complete) {
+    self.block();
+  }
+}
+
+
+- (void)cancel
+{
+  self.complete = YES;
+}
+
+
 - (void)dealloc
 {
-  self.block();
+  [self performCleanup];
 }
 
 @end

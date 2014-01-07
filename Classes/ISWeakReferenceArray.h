@@ -29,6 +29,7 @@
 + (id)arrayWithCapacity:(NSUInteger)numItems;
 - (id)initWithCapacity:(NSUInteger)numItems;
 
+- (BOOL)containsObject:(id)anObject;
 - (void)addObject:(id)anObject;
 - (void)removeObject:(id)anObject;
 

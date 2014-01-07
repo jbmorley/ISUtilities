@@ -15,5 +15,6 @@ typedef void (^ISCleanupBlock)();
 
 + (id)cleanupWithBlock:(ISCleanupBlock)block;
 - (id)initWithBlock:(ISCleanupBlock)block;
+- (void)cancel;
 
 @end

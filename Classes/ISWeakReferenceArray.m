@@ -48,6 +48,12 @@
 }
 
 
+- (BOOL)containsObject:(id)anObject
+{
+  return [self.items containsObject:[ISWeakReference referenceWithObject:anObject]];
+}
+
+
 - (void)addObject:(id)anObject
 {
   [self.items addObject:[ISWeakReference referenceWithObject:anObject]];
