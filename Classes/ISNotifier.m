@@ -31,7 +31,7 @@
 @implementation ISNotifier
 
 
-- (id) init
+- (id)init
 {
   self = [super init];
   if (self) {
@@ -47,7 +47,7 @@
 }
 
 
-- (void) addObserver:(id)observer
+- (void)addObserver:(id)observer
 {
   if (![self.observers containsObject:observer]) {
     [self.observers addObject:observer];
@@ -55,13 +55,13 @@
 }
 
 
-- (void) removeObserver:(id)observer
+- (void)removeObserver:(id)observer
 {
   [self.observers removeObject:observer];
 }
 
 
-- (void) notify:(SEL)selector
+- (void)notify:(SEL)selector
 {
   for (id object in self.observers) {
     if ([object respondsToSelector:selector]) {
@@ -74,8 +74,8 @@
 }
 
 
-- (void) notify:(SEL)selector
-     withObject:(id)anObject
+- (void)notify:(SEL)selector
+    withObject:(id)anObject
 {
   for (id object in self.observers) {
     if ([object respondsToSelector:selector]) {
@@ -89,9 +89,9 @@
 }
 
 
-- (void) notify:(SEL)selector
-     withObject:(id)anObject
-     withObject:(id)anotherObject
+- (void)notify:(SEL)selector
+    withObject:(id)anObject
+    withObject:(id)anotherObject
 {
   for (id object in self.observers) {
     if ([object respondsToSelector:selector]) {
@@ -101,6 +101,32 @@
                    withObject:anObject
                    withObject:anotherObject];
 #pragma clang diagnostic pop
+    }
+  }
+}
+
+
+- (void)notify:(SEL)selector
+    withObject:(id)anObject
+    withObject:(id)anotherObject
+    withObject:(id)yetAnotherObject
+{
+  for (id object in self.observers) {
+    if ([object respondsToSelector:selector]) {
+      
+      // Construct an NSInvocation for the selector.
+      NSMethodSignature *methodSignature = [object methodSignatureForSelector:selector];
+      NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:methodSignature];
+      [invocation setTarget:object];
+      [invocation setSelector:selector];
+      [invocation setArgument:&anObject
+                      atIndex:2];
+      [invocation setArgument:&anotherObject
+                      atIndex:3];
+      [invocation setArgument:&yetAnotherObject
+                      atIndex:4];
+      [invocation retainArguments];
+      [invocation invoke];
     }
   }
 }
