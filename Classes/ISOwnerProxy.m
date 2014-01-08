@@ -10,6 +10,17 @@
 
 @implementation ISOwnerProxy
 
++ (UIView *)viewFromNib:(NSString *)nibName
+{
+  ISOwnerProxy *proxy = [self proxyWithNibName:nibName];
+  return proxy.view;
+}
+
++ (id)proxyWithNibName:(NSString *)nibName
+{
+  return [[self alloc] initWithNibName:nibName];
+}
+
 - (id)initWithNibName:(NSString *)nibName
 {
   self = [super init];

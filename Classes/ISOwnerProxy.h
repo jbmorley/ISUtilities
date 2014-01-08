@@ -12,6 +12,8 @@
 
 @property (strong, nonatomic) IBOutlet UIView* view;
 
++ (UIView *)viewFromNib:(NSString *)nibName;
++ (id)proxyWithNibName:(NSString *)nibName;
 - (id)initWithNibName:(NSString *)nibName;
 
 @end
