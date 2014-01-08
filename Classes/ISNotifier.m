@@ -125,7 +125,6 @@
                       atIndex:3];
       [invocation setArgument:&yetAnotherObject
                       atIndex:4];
-      [invocation retainArguments];
       [invocation invoke];
     }
   }
