@@ -112,7 +112,7 @@ static NSString *const kSQLiteTypeInteger = @"integer";
     self.comparisonQueue
     = dispatch_queue_create([queueIdentifier UTF8String], NULL);
     
-    dispatch_sync(self.dispatchQueue, ^{
+    dispatch_async(self.dispatchQueue, ^{
       [self loadEntries];
     });
     

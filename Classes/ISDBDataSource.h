@@ -29,14 +29,9 @@
 
 @protocol ISDBDataSource <NSObject>
 
+- (void)initialize:(ISDBViewReloader *)reloader;
 - (NSArray *)entriesForOffset:(NSUInteger)offset
                         limit:(NSInteger)limit;
 - (NSDictionary *)entryForIdentifier:(id)identifier;
-
-@optional
-- (void)initialize:(ISDBViewReloader *)reloader;
-- (NSString *)insert:(NSDictionary *)entry;
-- (NSString *)update:(NSDictionary *)entry;
-- (NSString *)delete:(NSDictionary *)entry;
 
 @end
