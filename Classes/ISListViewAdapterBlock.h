@@ -8,4 +8,4 @@
 
 #import <Foundation/Foundation.h>
 
-typedef void (^ISListViewAdapterItemBlock)(id item);
+typedef void (^ISListViewAdapterBlock)(id item);

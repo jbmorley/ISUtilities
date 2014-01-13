@@ -8,13 +8,13 @@
 
 #import <Foundation/Foundation.h>
 #import "ISListViewAdapter.h"
-#import "ISListViewAdapterItemBlock.h"
+#import "ISListViewAdapterBlock.h"
 
 @interface ISListViewAdapter (Private)
 
 - (id)identifierForIndex:(NSUInteger)index;
 - (void)entryForIdentifier:(id)identifier
-                completion:(ISListViewAdapterItemBlock)completionBlock;
+                completion:(ISListViewAdapterBlock)completionBlock;
 
 
 @end

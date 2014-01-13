@@ -22,6 +22,7 @@
 
 #import <Foundation/Foundation.h>
 #import "ISListViewAdapterItemDescription.h"
+#import "ISListViewAdapterBlock.h"
 
 @class ISListViewAdapter;
 
@@ -29,10 +30,14 @@
 @protocol ISListViewAdapterDataSource <NSObject>
 
 - (void)initialize:(ISListViewAdapter *)adapter;
-- (NSArray *)adapter:(ISListViewAdapter *)adapter
-    entriesForOffset:(NSUInteger)offset
-               limit:(NSInteger)limit;
-- (id)adapter:(ISListViewAdapter *)adapter
-entryForIdentifier:(id)identifier;
+
+- (void)adapter:(ISListViewAdapter *)adapter
+entriesForOffset:(NSUInteger)offset
+          limit:(NSInteger)limit
+complectionBlock:(ISListViewAdapterBlock)completionBlock;
+
+- (void)adapter:(ISListViewAdapter *)adapter
+entryForIdentifier:(id)identifier
+completionBlock:(ISListViewAdapterBlock)completionBlock;
 
 @end

@@ -44,8 +44,6 @@ extern NSInteger ISDBViewIndexUndefined;
 
 @property (nonatomic, readonly) NSUInteger count;
 
-- (id)initWithDispatchQueue:(dispatch_queue_t)queue
-                 dataSource:(id<ISListViewAdapterDataSource>)dataSource;
 - (id)initWithDataSource:(id<ISListViewAdapterDataSource>)dataSource;
 
 - (void)invalidate;

@@ -7,7 +7,7 @@
 //
 
 #import "ISListViewAdapterItem.h"
-#import "ISListViewAdapter_Private.h"
+#import "ISListViewAdapter+Private.h"
 
 @interface ISListViewAdapterItem ()
 
@@ -57,7 +57,7 @@
 }
 
 
-- (void)fetch:(ISListViewAdapterItemBlock)completionBlock
+- (void)fetch:(ISListViewAdapterBlock)completionBlock
 {
   [self.view entryForIdentifier:self.identifier
                      completion:completionBlock];
