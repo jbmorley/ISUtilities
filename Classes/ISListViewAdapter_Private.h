@@ -7,13 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ISDBView.h"
+#import "ISListViewAdapter.h"
+#import "ISListViewAdapterItemBlock.h"
 
-@interface ISDBView (Private)
+@interface ISListViewAdapter (Private)
 
 - (id)identifierForIndex:(NSUInteger)index;
 - (void)entryForIdentifier:(id)identifier
-                completion:(void (^)(NSDictionary *entry))completionBlock;
+                completion:(ISListViewAdapterItemBlock)completionBlock;
 
 
 @end

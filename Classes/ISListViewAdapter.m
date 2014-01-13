@@ -20,9 +20,10 @@
 // SOFTWARE.
 // 
 
-#import "ISDBView.h"
+#import "ISListViewAdapter.h"
 #import "ISNotifier.h"
-#import "ISDBEntry.h"
+#import "ISListViewAdapterItem.h"
+#import "ISListViewAdapterItemBlock.h"
 
 typedef enum {
   ISDBViewStateInvalid,
@@ -31,10 +32,10 @@ typedef enum {
 } ISDBViewState;
 
 
-@interface ISDBView ()
+@interface ISListViewAdapter ()
 
 @property (nonatomic) ISDBViewState state;
-@property (strong, nonatomic) id<ISDBDataSource> dataSource;
+@property (strong, nonatomic) id<ISListViewAdapterDataSource> dataSource;
 @property (strong, nonatomic) NSArray *entries;
 @property (strong, nonatomic) NSMutableDictionary *entriesByIdentifier;
 @property (strong, nonatomic) ISNotifier *notifier;
@@ -45,13 +46,10 @@ typedef enum {
 
 NSInteger ISDBViewIndexUndefined = -1;
 
-static NSString *const kSQLiteTypeText = @"text";
-static NSString *const kSQLiteTypeInteger = @"integer";
-
-@implementation ISDBView
+@implementation ISListViewAdapter
 
 
-- (id)initWithDataSource:(id<ISDBDataSource>)dataSource
+- (id)initWithDataSource:(id<ISListViewAdapterDataSource>)dataSource
 {
   return [self initWithDispatchQueue:dispatch_get_main_queue()
                           dataSource:dataSource];
@@ -59,7 +57,7 @@ static NSString *const kSQLiteTypeInteger = @"integer";
 
 
 - (id)initWithDispatchQueue:(dispatch_queue_t)dispatchQueue
-                 dataSource:(id<ISDBDataSource>)dataSource
+                 dataSource:(id<ISListViewAdapterDataSource>)dataSource
 {
   self = [super init];
   if (self) {
@@ -161,16 +159,16 @@ static NSString *const kSQLiteTypeInteger = @"integer";
       NSUInteger newIndex = [updatedEntries indexOfObject:entry];
       if (newIndex == NSNotFound) {
         // Remove.
-        ISDBViewOperation *operation
-        = [ISDBViewOperation operationWithType:ISDBOperationDelete
+        ISListViewAdapterOperation *operation
+        = [ISListViewAdapterOperation operationWithType:ISListViewAdapterOperationTypeDelete
                                        payload:[NSNumber numberWithInteger:i]];
         [actions addObject:operation];
         countBefore--;
       } else {
         if (i != newIndex) {
           // Move.
-          ISDBViewOperation *operation
-          = [ISDBViewOperation operationWithType:ISDBOperationMove
+          ISListViewAdapterOperation *operation
+          = [ISListViewAdapterOperation operationWithType:ISListViewAdapterOperationTypeMove
                                          payload:@[[NSNumber numberWithInteger:i],
              [NSNumber numberWithInteger:newIndex]]];
           [actions addObject:operation];
@@ -184,8 +182,8 @@ static NSString *const kSQLiteTypeInteger = @"integer";
       NSUInteger oldIndex = [self.entries indexOfObject:entry];
       if (oldIndex == NSNotFound) {
         // Add.
-        ISDBViewOperation *operation
-        = [ISDBViewOperation operationWithType:ISDBOperationInsert
+        ISListViewAdapterOperation *operation
+        = [ISListViewAdapterOperation operationWithType:ISListViewAdapterOperationTypeInsert
                                        payload:[NSNumber numberWithInteger:i]];
         [actions addObject:operation];
         countBefore++;
@@ -206,16 +204,16 @@ static NSString *const kSQLiteTypeInteger = @"integer";
         [self.notifier notify:@selector(beginUpdates:)
                    withObject:self];
         
-        for (ISDBViewOperation *operation in actions) {
-          if (operation.type == ISDBOperationDelete) {
+        for (ISListViewAdapterOperation *operation in actions) {
+          if (operation.type == ISListViewAdapterOperationTypeDelete) {
             [self.notifier notify:@selector(view:entryDeleted:)
                        withObject:self
                        withObject:operation.payload];
-          } else if (operation.type == ISDBOperationMove) {
+          } else if (operation.type == ISListViewAdapterOperationTypeMove) {
             [self.notifier notify:@selector(view:entryMoved:)
                        withObject:self
                        withObject:operation.payload];
-          } else if (operation.type == ISDBOperationInsert) {
+          } else if (operation.type == ISListViewAdapterOperationTypeInsert) {
             [self.notifier notify:@selector(view:entryInserted:)
                        withObject:self
                        withObject:operation.payload];
@@ -273,7 +271,7 @@ static NSString *const kSQLiteTypeInteger = @"integer";
 }
 
 
-- (ISDBEntry *)entryForIdentifier:(id)identifier
+- (ISListViewAdapterItem *)entryForIdentifier:(id)identifier
 {
   // TODO Introducing an additional synchronized block may introduce some
   // performance issues.
@@ -283,7 +281,7 @@ static NSString *const kSQLiteTypeInteger = @"integer";
     = [ISDBEntryDescription descriptionWithIdentifier:identifier
                                               summary:nil];
     NSUInteger index = [self.entries indexOfObject:description];
-    ISDBEntry *entry = [ISDBEntry entryWithView:self
+    ISListViewAdapterItem *entry = [ISListViewAdapterItem entryWithAdapter:self
                                           index:index
                                      identifier:identifier];
     return entry;
@@ -291,9 +289,9 @@ static NSString *const kSQLiteTypeInteger = @"integer";
 }
 
 
-- (ISDBEntry *)entryForIndex:(NSInteger)index
+- (ISListViewAdapterItem *)entryForIndex:(NSInteger)index
 {
-  ISDBEntry *entry = [ISDBEntry entryWithView:self
+  ISListViewAdapterItem *entry = [ISListViewAdapterItem entryWithAdapter:self
                                         index:index];
   return entry;
 }
@@ -302,7 +300,7 @@ static NSString *const kSQLiteTypeInteger = @"integer";
 #pragma mark - Observers
 
 
-- (void) addObserver:(id<ISDBViewObserver>)observer
+- (void) addObserver:(id<ISListViewAdapterObserver>)observer
 {
   @synchronized (self) {
     [self.notifier addObserver:observer];
@@ -310,7 +308,7 @@ static NSString *const kSQLiteTypeInteger = @"integer";
 }
 
 
-- (void) removeObserver:(id<ISDBViewObserver>)observer
+- (void) removeObserver:(id<ISListViewAdapterObserver>)observer
 {
   @synchronized (self) {
     [self.notifier removeObserver:observer];

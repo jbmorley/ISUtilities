@@ -7,10 +7,10 @@
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be included in
 // all copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -18,41 +18,20 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// 
+//
 
 #import <Foundation/Foundation.h>
-#import "ISDBDataSource.h"
-#import "ISDBViewObserver.h"
-#import "ISDBOperation.h"
-#import "ISDBViewOperation.h"
+#import "ISDBEntryDescription.h"
+#import "ISDBViewReloader.h"
 
-@class ISDBEntry;
+// TODO Consider whether we should be passing a user dict of void
+// data around to make it easier to adjust the lifecycle of these?
 
-typedef void(^ISDBTask)();
+@protocol ISListViewAdapterDataSource <NSObject>
 
-extern NSInteger ISDBViewIndexUndefined;
-
-
-@interface ISDBView : NSObject {
-  
-  NSMutableArray *_entries;
-  dispatch_queue_t _dispatchQueue;
-  id<ISDBDataSource> _dataSource;
-  
-}
-
-@property (nonatomic, readonly) NSUInteger count;
-
-- (id)initWithDispatchQueue:(dispatch_queue_t)queue
-                 dataSource:(id<ISDBDataSource>)dataSource;
-- (id)initWithDataSource:(id<ISDBDataSource>)dataSource;
-
-- (void)invalidate:(BOOL)reload;
-
-- (ISDBEntry *)entryForIndex:(NSInteger)index;
-- (ISDBEntry *)entryForIdentifier:(id)identifier;
-
-- (void) addObserver:(id<ISDBViewObserver>)observer;
-- (void) removeObserver:(id<ISDBViewObserver>)observer;
+- (void)initialize:(ISDBViewReloader *)reloader;
+- (NSArray *)entriesForOffset:(NSUInteger)offset
+                        limit:(NSInteger)limit;
+- (NSDictionary *)entryForIdentifier:(id)identifier;
 
 @end

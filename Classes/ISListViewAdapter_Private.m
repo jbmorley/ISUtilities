@@ -6,9 +6,9 @@
 //
 //
 
-#import "ISDBView_Private.h"
+#import "ISListViewAdapter_Private.h"
 
-@implementation ISDBView (Private)
+@implementation ISListViewAdapter (Private)
 
 - (id)identifierForIndex:(NSUInteger)index
 {
@@ -20,7 +20,7 @@
 
 
 - (void)entryForIdentifier:(id)identifier
-                completion:(void (^)(NSDictionary *entry))completionBlock
+                completion:(ISListViewAdapterItemBlock)completionBlock
 {
   dispatch_async(_dispatchQueue, ^{
     NSDictionary *entry = [_dataSource entryForIdentifier:identifier];

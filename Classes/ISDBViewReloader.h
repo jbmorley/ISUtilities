@@ -22,12 +22,12 @@
 
 #import <Foundation/Foundation.h>
 
-@class ISDBView;
+@class ISListViewAdapter;
 
 @interface ISDBViewReloader : NSObject
 
-+ (id)reloaderWithView:(ISDBView *)view;
-- (id)initWithView:(ISDBView *)view;
++ (id)reloaderWithView:(ISListViewAdapter *)view;
+- (id)initWithView:(ISListViewAdapter *)view;
 - (void)reload;
 
 @end

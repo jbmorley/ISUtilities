@@ -7,10 +7,10 @@
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-//
+// 
 // The above copyright notice and this permission notice shall be included in
 // all copies or substantial portions of the Software.
-//
+// 
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -18,20 +18,41 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-//
+// 
 
 #import <Foundation/Foundation.h>
-#import "ISDBEntryDescription.h"
-#import "ISDBViewReloader.h"
+#import "ISListViewAdapterDataSource.h"
+#import "ISListViewAdapterObserver.h"
+#import "ISListViewAdapterOperationType.h"
+#import "ISListViewAdapterOperation.h"
 
-// TODO Consider whether we should be passing a user dict of void
-// data around to make it easier to adjust the lifecycle of these?
+@class ISListViewAdapterItem;
 
-@protocol ISDBDataSource <NSObject>
+typedef void(^ISDBTask)();
 
-- (void)initialize:(ISDBViewReloader *)reloader;
-- (NSArray *)entriesForOffset:(NSUInteger)offset
-                        limit:(NSInteger)limit;
-- (NSDictionary *)entryForIdentifier:(id)identifier;
+extern NSInteger ISDBViewIndexUndefined;
+
+
+@interface ISListViewAdapter : NSObject {
+  
+  NSMutableArray *_entries;
+  dispatch_queue_t _dispatchQueue;
+  id<ISListViewAdapterDataSource> _dataSource;
+  
+}
+
+@property (nonatomic, readonly) NSUInteger count;
+
+- (id)initWithDispatchQueue:(dispatch_queue_t)queue
+                 dataSource:(id<ISListViewAdapterDataSource>)dataSource;
+- (id)initWithDataSource:(id<ISListViewAdapterDataSource>)dataSource;
+
+- (void)invalidate:(BOOL)reload;
+
+- (ISListViewAdapterItem *)entryForIndex:(NSInteger)index;
+- (ISListViewAdapterItem *)entryForIdentifier:(id)identifier;
+
+- (void) addObserver:(id<ISListViewAdapterObserver>)observer;
+- (void) removeObserver:(id<ISListViewAdapterObserver>)observer;
 
 @end

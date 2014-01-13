@@ -8,20 +8,20 @@
 
 #import <Foundation/Foundation.h>
 
-@class ISDBView;
+@class ISListViewAdapter;
 
-@protocol ISDBViewObserver <NSObject>
+@protocol ISListViewAdapterObserver <NSObject>
 
 @optional
-- (void)beginUpdates:(ISDBView *)view;
-- (void)endUpdates:(ISDBView *)view;
-- (void)view:(ISDBView *)view
+- (void)beginUpdates:(ISListViewAdapter *)view;
+- (void)endUpdates:(ISListViewAdapter *)view;
+- (void)view:(ISListViewAdapter *)view
 entryUpdated:(NSNumber *)index;
-- (void)view:(ISDBView *)view
+- (void)view:(ISListViewAdapter *)view
    entryMoved:(NSArray *)indexes;
-- (void)view:(ISDBView *)view
+- (void)view:(ISListViewAdapter *)view
 entryInserted:(NSNumber *)index;
-- (void)view:(ISDBView *)view
+- (void)view:(ISListViewAdapter *)view
  entryDeleted:(NSNumber *)index;
 - (void)performBatchUpdates:(NSArray *)updates;
 

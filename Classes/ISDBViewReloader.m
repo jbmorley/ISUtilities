@@ -21,24 +21,24 @@
 //
 
 #import "ISDBViewReloader.h"
-#import "ISDBView.h"
+#import "ISListViewAdapter.h"
 
 
 @interface ISDBViewReloader ()
 
-@property (weak, nonatomic) ISDBView *view;
+@property (weak, nonatomic) ISListViewAdapter *view;
 
 @end
 
 @implementation ISDBViewReloader
 
-+ (id)reloaderWithView:(ISDBView *)view
++ (id)reloaderWithView:(ISListViewAdapter *)view
 {
   return [[self alloc] initWithView:view];
 }
 
 
-- (id)initWithView:(ISDBView *)view
+- (id)initWithView:(ISListViewAdapter *)view
 {
   self = [super init];
   if (self) {
