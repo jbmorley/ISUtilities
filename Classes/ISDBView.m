@@ -31,40 +31,6 @@ typedef enum {
 } ISDBViewState;
 
 
-@interface ISDBViewOperation : NSObject
-
-@property (nonatomic) ISDBOperation type;
-@property (strong, nonatomic) id payload;
-
-+ (id)operationWithType:(ISDBOperation)type
-                payload:(id)payload;
-- (id)initWithType:(ISDBOperation)type
-           payload:(id)payload;
-
-@end
-
-@implementation ISDBViewOperation
-
-+ (id)operationWithType:(ISDBOperation)type
-                payload:(id)payload
-{
-  return [[self alloc] initWithType:type
-                            payload:payload];
-}
-
-- (id)initWithType:(ISDBOperation)type
-           payload:(id)payload
-{
-  self = [super init];
-  if (self) {
-    self.type = type;
-    self.payload = payload;
-  }
-  return self;
-}
-
-@end
-
 @interface ISDBView ()
 
 @property (nonatomic) ISDBViewState state;
@@ -260,9 +226,16 @@ static NSString *const kSQLiteTypeInteger = @"integer";
         [self.notifier notify:@selector(endUpdates:)
                    withObject:self];
         
+        // Perform batch updates at the end when the array
+        // is in the new state.
+        [self.notifier notify:@selector(performBatchUpdates:)
+                   withObject:actions];
+
+        
         // We perform updates in a separate beginUpdates block to avoid
         // performing multiple operations when used as a data source for
         // UITableView.
+        // TODO Is it better to coalesce these?
         [self.notifier notify:@selector(beginUpdates:)
                    withObject:self];
         for (NSNumber *index in updates) {
@@ -272,6 +245,11 @@ static NSString *const kSQLiteTypeInteger = @"integer";
         }
         [self.notifier notify:@selector(endUpdates:)
                    withObject:self];
+
+        // There is no need to change the internal state for
+        // updates so we simply notify.
+        [self.notifier notify:@selector(performBatchUpdates:)
+                   withObject:updates];
 
       }
     });

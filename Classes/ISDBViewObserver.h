@@ -12,6 +12,7 @@
 
 @protocol ISDBViewObserver <NSObject>
 
+@optional
 - (void)beginUpdates:(ISDBView *)view;
 - (void)endUpdates:(ISDBView *)view;
 - (void)view:(ISDBView *)view
@@ -22,6 +23,7 @@ entryUpdated:(NSNumber *)index;
 entryInserted:(NSNumber *)index;
 - (void)view:(ISDBView *)view
  entryDeleted:(NSNumber *)index;
+- (void)performBatchUpdates:(NSArray *)updates;
 
 @end
 

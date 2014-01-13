@@ -23,20 +23,14 @@
 #import <Foundation/Foundation.h>
 #import "ISDBDataSource.h"
 #import "ISDBViewObserver.h"
+#import "ISDBOperation.h"
+#import "ISDBViewOperation.h"
 
 @class ISDBEntry;
 
 typedef void(^ISDBTask)();
 
 extern NSInteger ISDBViewIndexUndefined;
-
-
-typedef enum {
-  ISDBOperationInsert,
-  ISDBOperationDelete,
-  ISDBOperationUpdate,
-  ISDBOperationMove
-} ISDBOperation;
 
 
 @interface ISDBView : NSObject {
