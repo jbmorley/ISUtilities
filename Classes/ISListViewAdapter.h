@@ -26,6 +26,7 @@
 #import "ISListViewAdapterOperationType.h"
 #import "ISListViewAdapterOperation.h"
 #import "ISListViewAdapterItem.h"
+#import "ISListViewAdapterConnector.h"
 
 @class ISListViewAdapterItem;
 
