@@ -12,6 +12,8 @@
 @interface ISListViewAdapterConnector ()
 
 @property (nonatomic, weak) UICollectionView *collectionView;
+@property (nonatomic, weak) UITableView *tableView;
+@property (nonatomic) UITableViewRowAnimation animation;
 
 @end
 
@@ -32,31 +34,80 @@
 }
 
 
++ (id)connectorWithTableView:(UITableView *)tableView
+{
+  return [[self alloc] initWithTableView:tableView];
+}
+
+
+- (id)initWithTableView:(UITableView *)tableView
+{
+  self = [super init];
+  if (self) {
+    self.tableView = tableView;
+    self.animation = UITableViewRowAnimationAutomatic;
+  }
+  return self;
+}
+
+
 #pragma mark - ISListViewAdapterObserver
 
 
 - (void)performBatchUpdates:(NSArray *)updates
 {
-  [self.collectionView performBatchUpdates:^{
+  if (self.collectionView) {
+    
+    [self.collectionView performBatchUpdates:^{
+      for (ISListViewAdapterOperation *operation in updates) {
+        if (operation.type ==
+            ISListViewAdapterOperationTypeInsert) {
+          [self.collectionView insertItemsAtIndexPaths:@[operation.currentIndex]];
+        } else if (operation.type ==
+                   ISListViewAdapterOperationTypeMove) {
+          [self.collectionView moveItemAtIndexPath:operation.previousIndex
+                                       toIndexPath:operation.currentIndex];
+        } else if (operation.type ==
+                   ISListViewAdapterOperationTypeDelete) {
+          [self.collectionView deleteItemsAtIndexPaths:@[operation.previousIndex]];
+        } else if (operation.type ==
+                   ISListViewAdapterOperationTypeUpdate) {
+          [self.collectionView reloadItemsAtIndexPaths:@[operation.currentIndex]];
+        } else {
+          NSLog(@"Unsupported operation: %@", operation);
+        }
+      }
+    } completion:NULL];
+    
+  } else if (self.tableView) {
+    
+    [self.tableView beginUpdates];
+    
     for (ISListViewAdapterOperation *operation in updates) {
       if (operation.type ==
           ISListViewAdapterOperationTypeInsert) {
-        [self.collectionView insertItemsAtIndexPaths:@[operation.currentIndex]];
+        [self.tableView insertRowsAtIndexPaths:@[operation.currentIndex]
+                              withRowAnimation:self.animation];
       } else if (operation.type ==
                  ISListViewAdapterOperationTypeMove) {
-        [self.collectionView moveItemAtIndexPath:operation.previousIndex
-                                     toIndexPath:operation.currentIndex];
+        [self.tableView moveRowAtIndexPath:operation.previousIndex
+                               toIndexPath:operation.currentIndex];
       } else if (operation.type ==
                  ISListViewAdapterOperationTypeDelete) {
-        [self.collectionView deleteItemsAtIndexPaths:@[operation.previousIndex]];
+        [self.tableView deleteRowsAtIndexPaths:@[operation.previousIndex]
+                              withRowAnimation:self.animation];
       } else if (operation.type ==
                  ISListViewAdapterOperationTypeUpdate) {
-        [self.collectionView reloadItemsAtIndexPaths:@[operation.currentIndex]];
+        [self.tableView reloadRowsAtIndexPaths:@[operation.currentIndex]
+                              withRowAnimation:self.animation];
       } else {
         NSLog(@"Unsupported operation: %@", operation);
       }
     }
-  } completion:NULL];
+    
+    [self.tableView endUpdates];
+    
+  }
 }
 
 

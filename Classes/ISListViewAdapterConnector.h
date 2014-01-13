@@ -15,4 +15,7 @@
 + (id)connectorWithCollectionView:(UICollectionView *)collectionView;
 - (id)initWithCollectionView:(UICollectionView *)collectionView;
 
++ (id)connectorWithTableView:(UITableView *)tableView;
+- (id)initWithTableView:(UITableView *)tableView;
+
 @end
