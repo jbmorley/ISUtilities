@@ -67,7 +67,7 @@ NSInteger ISDBViewIndexUndefined = -1;
     self.notifier = [ISNotifier new];
     
     if ([self.dataSource respondsToSelector:@selector(initialize:)]) {
-      [self.dataSource initialize:[[ISDBViewReloader alloc] initWithView:self]];
+      [self.dataSource initialize:self];
     }
     
     NSString *queueIdentifier = [NSString stringWithFormat:@"%@%p",
@@ -85,7 +85,7 @@ NSInteger ISDBViewIndexUndefined = -1;
 }
 
 
-- (void)invalidate:(BOOL)reload
+- (void)invalidate
 {
   @synchronized (self) {
     self.state = ISDBViewStateInvalid;
@@ -108,8 +108,9 @@ NSInteger ISDBViewIndexUndefined = -1;
     assert(self.entries == nil);
     assert(self.state == ISDBViewStateInvalid);
     self.entries =
-    [self.dataSource entriesForOffset:0
-                                limit:-1];
+    [self.dataSource adapter:self
+            entriesForOffset:0
+                       limit:-1];
     self.state = ISDBViewStateValid;
   }
 }
@@ -132,8 +133,9 @@ NSInteger ISDBViewIndexUndefined = -1;
   
   // Fetch the updated entries.
   NSArray *updatedEntries =
-  [self.dataSource entriesForOffset:0
-                              limit:-1];
+  [self.dataSource adapter:self
+          entriesForOffset:0
+                     limit:-1];
   
   // Cross-post the comparison onto a separate serial dispatch queue.
   // This ensures all updates are ordered.
@@ -155,7 +157,7 @@ NSInteger ISDBViewIndexUndefined = -1;
     
     // Removes and moves.
     for (NSInteger i = self.entries.count-1; i >= 0; i--) {
-      ISDBEntryDescription *entry = [self.entries objectAtIndex:i];
+      ISListViewAdapterItemDescription *entry = [self.entries objectAtIndex:i];
       NSUInteger newIndex = [updatedEntries indexOfObject:entry];
       if (newIndex == NSNotFound) {
         // Remove.
@@ -178,7 +180,7 @@ NSInteger ISDBViewIndexUndefined = -1;
     
     // Additions and updates.
     for (NSUInteger i = 0; i < updatedEntries.count; i++) {
-      ISDBEntryDescription *entry = [updatedEntries objectAtIndex:i];
+      ISListViewAdapterItemDescription *entry = [updatedEntries objectAtIndex:i];
       NSUInteger oldIndex = [self.entries indexOfObject:entry];
       if (oldIndex == NSNotFound) {
         // Add.
@@ -188,7 +190,7 @@ NSInteger ISDBViewIndexUndefined = -1;
         [actions addObject:operation];
         countBefore++;
       } else {
-        ISDBEntryDescription *oldEntry = [self.entries objectAtIndex:oldIndex];
+        ISListViewAdapterItemDescription *oldEntry = [self.entries objectAtIndex:oldIndex];
         if (![oldEntry isSummaryEqual:entry]) {
           [updates addObject:[NSNumber numberWithInteger:i]];
         }
@@ -200,52 +202,15 @@ NSInteger ISDBViewIndexUndefined = -1;
     // Notify our observers.
     dispatch_sync(dispatch_get_main_queue(), ^{
       @synchronized (self) {
-        
-        [self.notifier notify:@selector(beginUpdates:)
-                   withObject:self];
-        
-        for (ISListViewAdapterOperation *operation in actions) {
-          if (operation.type == ISListViewAdapterOperationTypeDelete) {
-            [self.notifier notify:@selector(view:entryDeleted:)
-                       withObject:self
-                       withObject:operation.payload];
-          } else if (operation.type == ISListViewAdapterOperationTypeMove) {
-            [self.notifier notify:@selector(view:entryMoved:)
-                       withObject:self
-                       withObject:operation.payload];
-          } else if (operation.type == ISListViewAdapterOperationTypeInsert) {
-            [self.notifier notify:@selector(view:entryInserted:)
-                       withObject:self
-                       withObject:operation.payload];
-          }
-          
-        }
+
+        // Notify the observers of
         self.entries = updatedEntries;
-        [self.notifier notify:@selector(endUpdates:)
-                   withObject:self];
-        
-        // Perform batch updates at the end when the array
-        // is in the new state.
         [self.notifier notify:@selector(performBatchUpdates:)
                    withObject:actions];
-
         
         // We perform updates in a separate beginUpdates block to avoid
         // performing multiple operations when used as a data source for
         // UITableView.
-        // TODO Is it better to coalesce these?
-        [self.notifier notify:@selector(beginUpdates:)
-                   withObject:self];
-        for (NSNumber *index in updates) {
-          [self.notifier notify:@selector(view:entryUpdated:)
-                     withObject:self
-                     withObject:index];
-        }
-        [self.notifier notify:@selector(endUpdates:)
-                   withObject:self];
-
-        // There is no need to change the internal state for
-        // updates so we simply notify.
         [self.notifier notify:@selector(performBatchUpdates:)
                    withObject:updates];
 
@@ -277,8 +242,8 @@ NSInteger ISDBViewIndexUndefined = -1;
   // performance issues.
   @synchronized (self) {
     // Create a description to allow us to find the entry.
-    ISDBEntryDescription *description
-    = [ISDBEntryDescription descriptionWithIdentifier:identifier
+    ISListViewAdapterItemDescription *description
+    = [ISListViewAdapterItemDescription descriptionWithIdentifier:identifier
                                               summary:nil];
     NSUInteger index = [self.entries indexOfObject:description];
     ISListViewAdapterItem *entry = [ISListViewAdapterItem entryWithAdapter:self

@@ -22,7 +22,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface ISDBEntryDescription : NSObject
+@interface ISListViewAdapterItemDescription : NSObject
 
 @property (strong, nonatomic, readonly) id identifier;
 @property (strong, nonatomic, readonly) id summary;
@@ -31,6 +31,6 @@
                   summary:(id)summary;
 - (id)initWithIdentifier:(id)identifier
                  summary:(id)summary;
-- (BOOL)isSummaryEqual:(ISDBEntryDescription *)object;
+- (BOOL)isSummaryEqual:(ISListViewAdapterItemDescription *)object;
 
 @end

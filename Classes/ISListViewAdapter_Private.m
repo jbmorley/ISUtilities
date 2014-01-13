@@ -13,7 +13,7 @@
 - (id)identifierForIndex:(NSUInteger)index
 {
   @synchronized (self) {
-    ISDBEntryDescription *description = [_entries objectAtIndex:index];
+    ISListViewAdapterItemDescription *description = [_entries objectAtIndex:index];
     return description.identifier;
   }
 }
@@ -23,7 +23,8 @@
                 completion:(ISListViewAdapterItemBlock)completionBlock
 {
   dispatch_async(_dispatchQueue, ^{
-    NSDictionary *entry = [_dataSource entryForIdentifier:identifier];
+    NSDictionary *entry = [_dataSource adapter:self
+                            entryForIdentifier:identifier];
     dispatch_async(dispatch_get_main_queue(), ^{
       completionBlock(entry);
     });

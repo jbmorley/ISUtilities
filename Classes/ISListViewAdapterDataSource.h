@@ -21,17 +21,18 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ISDBEntryDescription.h"
-#import "ISDBViewReloader.h"
+#import "ISListViewAdapterItemDescription.h"
 
-// TODO Consider whether we should be passing a user dict of void
-// data around to make it easier to adjust the lifecycle of these?
+@class ISListViewAdapter;
+
 
 @protocol ISListViewAdapterDataSource <NSObject>
 
-- (void)initialize:(ISDBViewReloader *)reloader;
-- (NSArray *)entriesForOffset:(NSUInteger)offset
-                        limit:(NSInteger)limit;
-- (NSDictionary *)entryForIdentifier:(id)identifier;
+- (void)initialize:(ISListViewAdapter *)adapter;
+- (NSArray *)adapter:(ISListViewAdapter *)adapter
+    entriesForOffset:(NSUInteger)offset
+               limit:(NSInteger)limit;
+- (id)adapter:(ISListViewAdapter *)adapter
+entryForIdentifier:(id)identifier;
 
 @end

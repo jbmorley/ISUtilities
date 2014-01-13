@@ -11,11 +11,8 @@
 #import "ISListViewAdapterObserver.h"
 #import "ISListViewAdapterItemBlock.h"
 
-// typedef ISCacheBlockState (^ISCacheBlock)(ISCacheItem *info);
 
-
-// TODO Why is this an observer?
-@interface ISListViewAdapterItem : NSObject <ISListViewAdapterObserver>
+@interface ISListViewAdapterItem : NSObject
 
 + (id)entryWithAdapter:(ISListViewAdapter *)adapter
                  index:(NSUInteger)index;

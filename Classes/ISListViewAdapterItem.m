@@ -52,15 +52,8 @@
     } else {
       self.identifier = identifier;
     }
-    [self.view addObserver:self];
   }
   return self;
-}
-
-
-- (void)dealloc
-{
-  [self.view removeObserver:self];
 }
 
 
@@ -69,42 +62,6 @@
   [self.view entryForIdentifier:self.identifier
                      completion:completionBlock];
 }
-
-
-#pragma mark - ISDBViewObserver
-
-
-//- (void) beginUpdates:(ISListViewAdapter *)view {}
-//
-//
-//- (void) endUpdates:(ISListViewAdapter *)view {}
-//
-//
-//- (void) view:(ISListViewAdapter *)view
-// entryUpdated:(NSNumber *)index
-//{
-//  if (self.index == [index integerValue]) {
-//    self.index = [index integerValue];
-//    NSLog(@"Entry Changed");
-//  }
-//}
-//
-//
-//- (void) view:(ISListViewAdapter *)view
-//   entryMoved:(NSArray *)indexes {}
-//
-//
-//- (void) view:(ISListViewAdapter *)view
-//entryInserted:(NSNumber *)index {}
-//
-//
-//- (void) view:(ISListViewAdapter *)view
-// entryDeleted:(NSNumber *)index
-//{
-//  if (self.index == [index integerValue]) {
-//    NSLog(@"Entry Deleted");
-//  }
-//}
 
 
 @end

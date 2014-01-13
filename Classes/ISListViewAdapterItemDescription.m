@@ -20,37 +20,51 @@
 // SOFTWARE.
 //
 
-#import "ISDBViewReloader.h"
-#import "ISListViewAdapter.h"
+#import "ISListViewAdapterItemDescription.h"
 
-
-@interface ISDBViewReloader ()
-
-@property (weak, nonatomic) ISListViewAdapter *view;
+@interface ISListViewAdapterItemDescription ()
 
 @end
 
-@implementation ISDBViewReloader
 
-+ (id)reloaderWithView:(ISListViewAdapter *)view
+@implementation ISListViewAdapterItemDescription
+
+
++ (id)descriptionWithIdentifier:(id)identifier
+                  summary:(id)summary
 {
-  return [[self alloc] initWithView:view];
+  return [[self alloc] initWithIdentifier:identifier
+                                  summary:summary];
 }
 
 
-- (id)initWithView:(ISListViewAdapter *)view
+- (id)initWithIdentifier:(id)identifier
+                 summary:(id)summary
 {
   self = [super init];
   if (self) {
-    self.view = view;
+    _identifier = identifier;
+    _summary = summary;
   }
   return self;
 }
 
 
-- (void)reload
+- (BOOL)isEqual:(id)object
 {
-  [self.view invalidate:YES];
+  if (self == object) {
+    return YES;
+  } else if ([self class] == [object class]) {
+    ISListViewAdapterItemDescription *identifier = (ISListViewAdapterItemDescription *)object;
+    return [self.identifier isEqual:identifier.identifier];
+  }
+  return NO;
+}
+
+
+- (BOOL)isSummaryEqual:(ISListViewAdapterItemDescription *)object
+{
+  return [self.summary isEqual:object.summary];
 }
 
 

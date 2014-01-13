@@ -25,6 +25,7 @@
 #import "ISListViewAdapterObserver.h"
 #import "ISListViewAdapterOperationType.h"
 #import "ISListViewAdapterOperation.h"
+#import "ISListViewAdapterItem.h"
 
 @class ISListViewAdapterItem;
 
@@ -47,7 +48,7 @@ extern NSInteger ISDBViewIndexUndefined;
                  dataSource:(id<ISListViewAdapterDataSource>)dataSource;
 - (id)initWithDataSource:(id<ISListViewAdapterDataSource>)dataSource;
 
-- (void)invalidate:(BOOL)reload;
+- (void)invalidate;
 
 - (ISListViewAdapterItem *)entryForIndex:(NSInteger)index;
 - (ISListViewAdapterItem *)entryForIdentifier:(id)identifier;
