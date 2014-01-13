@@ -12,11 +12,7 @@
 @interface ISListViewAdapterOperation : NSObject
 
 @property (nonatomic) ISListViewAdapterOperationType type;
-@property (strong, nonatomic) id payload;
-
-+ (id)operationWithType:(ISListViewAdapterOperationType)type
-                payload:(id)payload;
-- (id)initWithType:(ISListViewAdapterOperationType)type
-           payload:(id)payload;
+@property (nonatomic, strong) NSIndexPath *currentIndex;
+@property (nonatomic, strong) NSIndexPath *previousIndex;
 
 @end

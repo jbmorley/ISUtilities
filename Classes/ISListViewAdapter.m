@@ -126,42 +126,96 @@ NSInteger ISDBViewIndexUndefined = -1;
        
        // Removes and moves.
        for (NSInteger i = self.entries.count-1; i >= 0; i--) {
-         ISListViewAdapterItemDescription *entry = [self.entries objectAtIndex:i];
-         NSUInteger newIndex = [updatedEntries indexOfObject:entry];
+         ISListViewAdapterItemDescription *entry =
+         [self.entries objectAtIndex:i];
+         
+         // Determine the type of the operation.
+         NSUInteger newIndex =
+         [updatedEntries indexOfObject:entry];
          if (newIndex == NSNotFound) {
+           
+           // Create an operation.
+           ISListViewAdapterOperation *operation =
+           [ISListViewAdapterOperation new];
+           
            // Remove.
-           ISListViewAdapterOperation *operation
-           = [ISListViewAdapterOperation operationWithType:ISListViewAdapterOperationTypeDelete
-                                                   payload:[NSNumber numberWithInteger:i]];
+           operation.type =
+           ISListViewAdapterOperationTypeDelete;
+           operation.previousIndex =
+           [NSIndexPath indexPathForItem:i
+                               inSection:0];
            [actions addObject:operation];
+           
+           // Track the removal.
            countBefore--;
-         } else {
-           if (i != newIndex) {
-             // Move.
-             ISListViewAdapterOperation *operation
-             = [ISListViewAdapterOperation operationWithType:ISListViewAdapterOperationTypeMove
-                                                     payload:@[[NSNumber numberWithInteger:i],
-                                                               [NSNumber numberWithInteger:newIndex]]];
-             [actions addObject:operation];
-           }
+           
+         } else if (i != newIndex) {
+           
+           // Create an operation.
+           ISListViewAdapterOperation *operation =
+           [ISListViewAdapterOperation new];
+             
+           // Move.
+           operation.type =
+           ISListViewAdapterOperationTypeMove;
+           operation.previousIndex =
+           [NSIndexPath indexPathForItem:i
+                               inSection:0];
+           operation.currentIndex =
+           [NSIndexPath indexPathForItem:newIndex
+                               inSection:0];
+           [actions addObject:operation];
+           
          }
        }
        
        // Additions and updates.
        for (NSUInteger i = 0; i < updatedEntries.count; i++) {
-         ISListViewAdapterItemDescription *entry = [updatedEntries objectAtIndex:i];
-         NSUInteger oldIndex = [self.entries indexOfObject:entry];
+         ISListViewAdapterItemDescription *entry =
+         [updatedEntries objectAtIndex:i];
+         
+         // Determine the index of the operation.
+         NSUInteger oldIndex =
+         [self.entries indexOfObject:entry];
+         
          if (oldIndex == NSNotFound) {
+           
+           // Create an operation.
+           ISListViewAdapterOperation *operation =
+           [ISListViewAdapterOperation new];
+           
            // Add.
-           ISListViewAdapterOperation *operation
-           = [ISListViewAdapterOperation operationWithType:ISListViewAdapterOperationTypeInsert
-                                                   payload:[NSNumber numberWithInteger:i]];
+           operation.type =
+           ISListViewAdapterOperationTypeInsert;
+           operation.currentIndex =
+           [NSIndexPath indexPathForItem:i
+                               inSection:0];
            [actions addObject:operation];
+
+           // Track the addition.
            countBefore++;
+           
          } else {
-           ISListViewAdapterItemDescription *oldEntry = [self.entries objectAtIndex:oldIndex];
+
+           // Check for updates.
+           ISListViewAdapterItemDescription *oldEntry =
+           [self.entries objectAtIndex:oldIndex];
            if (![oldEntry isSummaryEqual:entry]) {
-             [updates addObject:[NSNumber numberWithInteger:i]];
+             
+             // Create an operation.
+             ISListViewAdapterOperation *operation =
+             [ISListViewAdapterOperation new];
+             
+             // Update.
+             operation.type =
+             ISListViewAdapterOperationTypeUpdate;
+             operation.currentIndex =
+             [NSIndexPath indexPathForItem:i
+                                 inSection:0];
+             operation.previousIndex =
+             operation.currentIndex;
+             [updates addObject:operation];
+             
            }
          }
        }
