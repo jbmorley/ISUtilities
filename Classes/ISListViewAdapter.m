@@ -39,7 +39,6 @@ typedef enum {
 @property (strong, nonatomic) NSArray *entries;
 @property (strong, nonatomic) NSMutableDictionary *entriesByIdentifier;
 @property (strong, nonatomic) ISNotifier *notifier;
-//@property (nonatomic) dispatch_queue_t dispatchQueue;
 @property (nonatomic) dispatch_queue_t comparisonQueue;
 
 @end
@@ -56,6 +55,7 @@ NSInteger ISDBViewIndexUndefined = -1;
     self.dataSource = dataSource;
     self.state = ISDBViewStateInvalid;
     self.notifier = [ISNotifier new];
+    self.entries = @[];
     
     if ([self.dataSource respondsToSelector:@selector(initialize:)]) {
       [self.dataSource initialize:self];
@@ -100,6 +100,10 @@ NSInteger ISDBViewIndexUndefined = -1;
     }
   }
   
+  // Copy our existing view of the entries to ensure it doesn't
+  // change while we are procesisng the change sets.
+  NSMutableArray *entries = [self.entries mutableCopy];
+  
   // Fetch the updated entries.
   [self.dataSource adapter:self
           entriesForOffset:0
@@ -121,13 +125,17 @@ NSInteger ISDBViewIndexUndefined = -1;
        // entering a synchronized block.
        NSMutableArray *actions = [NSMutableArray arrayWithCapacity:3];
        NSMutableArray *updates = [NSMutableArray arrayWithCapacity:3];
-       NSInteger countBefore = self.entries.count;
+       NSInteger countBefore = entries.count;
        NSInteger countAfter = updatedEntries.count;
        
+       NSLog(@"Update: before = %d, after = %d",
+             countBefore,
+             countAfter);
+       
        // Removes and moves.
-       for (NSInteger i = self.entries.count-1; i >= 0; i--) {
+       for (NSInteger i = entries.count-1; i >= 0; i--) {
          ISListViewAdapterItemDescription *entry =
-         [self.entries objectAtIndex:i];
+         [entries objectAtIndex:i];
          
          // Determine the type of the operation.
          NSUInteger newIndex =
@@ -176,7 +184,7 @@ NSInteger ISDBViewIndexUndefined = -1;
          
          // Determine the index of the operation.
          NSUInteger oldIndex =
-         [self.entries indexOfObject:entry];
+         [entries indexOfObject:entry];
          
          if (oldIndex == NSNotFound) {
            
@@ -196,10 +204,10 @@ NSInteger ISDBViewIndexUndefined = -1;
            countBefore++;
            
          } else {
-
+           
            // Check for updates.
            ISListViewAdapterItemDescription *oldEntry =
-           [self.entries objectAtIndex:oldIndex];
+           [entries objectAtIndex:oldIndex];
            if (![oldEntry isSummaryEqual:entry]) {
              
              // Create an operation.
@@ -222,22 +230,20 @@ NSInteger ISDBViewIndexUndefined = -1;
        
        assert(countBefore == countAfter);
        
-       // Notify our observers.
-       dispatch_sync(dispatch_get_main_queue(), ^{
-         @synchronized (self) {
-           
-           // Notify the observers of
-           self.entries = updatedEntries;
-           [self.notifier notify:@selector(performBatchUpdates:)
-                      withObject:actions];
-           
-           // We perform updates in a separate beginUpdates block to avoid
-           // performing multiple operations when used as a data source for
-           // UITableView.
-           [self.notifier notify:@selector(performBatchUpdates:)
-                      withObject:updates];
-           
-         }
+       // Update the state and notify our observers.
+       dispatch_async(dispatch_get_main_queue(), ^{
+         
+         // Notify the observers of the additions, moves and removals.
+         self.entries = updatedEntries;
+         [self.notifier notify:@selector(performBatchUpdates:)
+                    withObject:actions];
+         
+         // Notify the observers of updates in a separate block to avoid
+         // performing multiple operations to individual items (it seems
+         // to break UITableView).
+         [self.notifier notify:@selector(performBatchUpdates:)
+                    withObject:updates];
+         
        });
        
      });
@@ -251,7 +257,9 @@ NSInteger ISDBViewIndexUndefined = -1;
   // We may return an out-of-date result for the count, but we fire an
   // asynchronous update which will ensure we return the latest version
   // as-and-when it is available.
-  // TODO How to we track outstanding updates checks?
+  // TODO How do we ensure we're up-to-date and that there aren't any outstanding
+  // updates? Perhaps we could count the update requests and zero it every time
+  // we attempt ot make an actual update? Or is this over-engineering?
   [self updateEntries];
   return self.entries.count;
 }
@@ -259,19 +267,15 @@ NSInteger ISDBViewIndexUndefined = -1;
 
 - (ISListViewAdapterItem *)entryForIdentifier:(id)identifier
 {
-  // TODO Introducing an additional synchronized block may introduce some
-  // performance issues.
-  @synchronized (self) {
-    // Create a description to allow us to find the entry.
-    ISListViewAdapterItemDescription *description
-    = [ISListViewAdapterItemDescription descriptionWithIdentifier:identifier
-                                              summary:nil];
-    NSUInteger index = [self.entries indexOfObject:description];
-    ISListViewAdapterItem *entry = [ISListViewAdapterItem entryWithAdapter:self
-                                          index:index
-                                     identifier:identifier];
-    return entry;
-  }
+  // Create a description to allow us to find the entry.
+  ISListViewAdapterItemDescription *description
+  = [ISListViewAdapterItemDescription descriptionWithIdentifier:identifier
+                                            summary:nil];
+  NSUInteger index = [self.entries indexOfObject:description];
+  ISListViewAdapterItem *entry = [ISListViewAdapterItem entryWithAdapter:self
+                                        index:index
+                                   identifier:identifier];
+  return entry;
 }
 
 
@@ -286,19 +290,15 @@ NSInteger ISDBViewIndexUndefined = -1;
 #pragma mark - Observers
 
 
-- (void) addObserver:(id<ISListViewAdapterObserver>)observer
+- (void)addObserver:(id<ISListViewAdapterObserver>)observer
 {
-  @synchronized (self) {
-    [self.notifier addObserver:observer];
-  }
+  [self.notifier addObserver:observer];
 }
 
 
-- (void) removeObserver:(id<ISListViewAdapterObserver>)observer
+- (void)removeObserver:(id<ISListViewAdapterObserver>)observer
 {
-  @synchronized (self) {
-    [self.notifier removeObserver:observer];
-  }
+  [self.notifier removeObserver:observer];
 }
 
 

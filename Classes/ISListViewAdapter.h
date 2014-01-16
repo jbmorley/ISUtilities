@@ -52,7 +52,7 @@ extern NSInteger ISDBViewIndexUndefined;
 - (ISListViewAdapterItem *)entryForIndex:(NSInteger)index;
 - (ISListViewAdapterItem *)entryForIdentifier:(id)identifier;
 
-- (void) addObserver:(id<ISListViewAdapterObserver>)observer;
-- (void) removeObserver:(id<ISListViewAdapterObserver>)observer;
+- (void)addObserver:(id<ISListViewAdapterObserver>)observer;
+- (void)removeObserver:(id<ISListViewAdapterObserver>)observer;
 
 @end
