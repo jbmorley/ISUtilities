@@ -24,26 +24,20 @@
 
 @implementation ISListViewAdapter (Private)
 
+
 - (id)identifierForIndex:(NSUInteger)index
 {
-  @synchronized (self) {
-    // TODO What's going on here. I cannot believe that
-    // requesting this every time is performant?
-    ISListViewAdapterItemDescription *description = [_entries objectAtIndex:index];
-    return description.identifier;
-  }
+  ISListViewAdapterItemDescription *description =
+  [_entries objectAtIndex:index];
+  return description.identifier;
 }
 
 
-// TODO Where is this function called? Is it actually
-// required?
-- (void)entryForIdentifier:(id)identifier
-                completion:(ISListViewAdapterBlock)completionBlock
+- (void)itemForIdentifier:(id)identifier
+               completion:(ISListViewAdapterBlock)completionBlock
 {
-  // TODO This doesn't need to be dispatched on a different
-  // thread any more.
   [_dataSource adapter:self
-    entryForIdentifier:identifier
+     itemForIdentifier:identifier
        completionBlock:completionBlock];
 }
 

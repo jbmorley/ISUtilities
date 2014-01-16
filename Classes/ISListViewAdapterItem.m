@@ -48,14 +48,14 @@
          identifier:(id)identifier
 {
   return [[self alloc] initWithAdapter:adapter
-                              index:index
-                         identifier:identifier];
+                                 index:index
+                            identifier:identifier];
 }
 
 
 - (id)initWithAdapter:(ISListViewAdapter *)view
-             index:(NSUInteger)index
-        identifier:(id)identifier
+                index:(NSUInteger)index
+           identifier:(id)identifier
 {
   self = [super init];
   if (self) {
@@ -73,7 +73,7 @@
 
 - (void)fetch:(ISListViewAdapterBlock)completionBlock
 {
-  [self.view entryForIdentifier:self.identifier
+  [self.view itemForIdentifier:self.identifier
                      completion:completionBlock];
 }
 

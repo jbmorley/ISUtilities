@@ -127,11 +127,7 @@ NSInteger ISDBViewIndexUndefined = -1;
        NSMutableArray *updates = [NSMutableArray arrayWithCapacity:3];
        NSInteger countBefore = entries.count;
        NSInteger countAfter = updatedEntries.count;
-       
-       NSLog(@"Update: before = %d, after = %d",
-             countBefore,
-             countAfter);
-       
+              
        // Removes and moves.
        for (NSInteger i = entries.count-1; i >= 0; i--) {
          ISListViewAdapterItemDescription *entry =
@@ -265,7 +261,7 @@ NSInteger ISDBViewIndexUndefined = -1;
 }
 
 
-- (ISListViewAdapterItem *)entryForIdentifier:(id)identifier
+- (ISListViewAdapterItem *)itemForIdentifier:(id)identifier
 {
   // Create a description to allow us to find the entry.
   ISListViewAdapterItemDescription *description
@@ -279,7 +275,7 @@ NSInteger ISDBViewIndexUndefined = -1;
 }
 
 
-- (ISListViewAdapterItem *)entryForIndex:(NSInteger)index
+- (ISListViewAdapterItem *)itemForIndex:(NSInteger)index
 {
   ISListViewAdapterItem *entry = [ISListViewAdapterItem entryWithAdapter:self
                                         index:index];

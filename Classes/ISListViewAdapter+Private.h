@@ -24,11 +24,15 @@
 #import "ISListViewAdapter.h"
 #import "ISListViewAdapterBlock.h"
 
+// Private interface used by the ISListViewAdapterItem to
+// perform a lazy fetch for its contents.
+// This approach should probably be rethought at some point
+// but it works for the time being.
 @interface ISListViewAdapter (Private)
 
 - (id)identifierForIndex:(NSUInteger)index;
-- (void)entryForIdentifier:(id)identifier
-                completion:(ISListViewAdapterBlock)completionBlock;
+- (void)itemForIdentifier:(id)identifier
+               completion:(ISListViewAdapterBlock)completionBlock;
 
 
 @end
