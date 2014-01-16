@@ -20,10 +20,10 @@
 // SOFTWARE.
 //
 
-#import "UIAlertView+BlockExtensions.h"
+#import "UIAlertView+Block.h"
 #import <objc/runtime.h>
 
-@implementation UIAlertView (BlockExtensions)
+@implementation UIAlertView (Block)
 
 - (id)initWithTitle:(NSString *)title
             message:(NSString *)message

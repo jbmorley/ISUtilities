@@ -20,7 +20,7 @@
 // SOFTWARE.
 //
 
-@interface UIAlertView (BlockExtensions) <UIAlertViewDelegate>
+@interface UIAlertView (Block) <UIAlertViewDelegate>
 
 - (id)initWithTitle:(NSString *)title
             message:(NSString *)message
