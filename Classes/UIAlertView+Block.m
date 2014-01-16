@@ -23,6 +23,8 @@
 #import "UIAlertView+Block.h"
 #import <objc/runtime.h>
 
+const char *kBlockCallback = "blockCallback";
+
 @implementation UIAlertView (Block)
 
 - (id)initWithTitle:(NSString *)title
@@ -31,7 +33,7 @@
   cancelButtonTitle:(NSString *)cancelButtonTitle
   otherButtonTitles:(NSString *)otherButtonTitles, ... {
 
-  objc_setAssociatedObject(self, "blockCallback", (__bridge id)Block_copy((__bridge void *)block), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+  self.blockCallback = block;
 	if (self = [self initWithTitle:title
                          message:message
                         delegate:self
@@ -61,9 +63,25 @@
 - (void)alertView:(UIAlertView *)alertView
 clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-  void (^block)(NSUInteger buttonIndex) = objc_getAssociatedObject(self, "blockCallback");
-  block(buttonIndex);
-  Block_release((__bridge void *)block);
+  self.blockCallback(buttonIndex);
+  self.blockCallback = nil;
 }
+
+
+- (ISAlertViewBlock)blockCallback
+{
+  return objc_getAssociatedObject(self, kBlockCallback);
+}
+
+
+- (void)setBlockCallback:(ISAlertViewBlock)blockCallback
+{
+  objc_setAssociatedObject(self,
+                           kBlockCallback,
+                           (__bridge id)Block_copy((__bridge void *)blockCallback),
+                           OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+
 
 @end

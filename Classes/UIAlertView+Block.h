@@ -20,6 +20,8 @@
 // SOFTWARE.
 //
 
+typedef void (^ISAlertViewBlock)(NSUInteger buttonIndex);
+
 @interface UIAlertView (Block) <UIAlertViewDelegate>
 
 - (id)initWithTitle:(NSString *)title
