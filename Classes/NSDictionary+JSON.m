@@ -24,7 +24,18 @@
 
 @implementation NSDictionary (JSON)
 
-- (NSString *)json
++ (NSDictionary *)dictionaryWithJSON:(NSString *)JSON
+{
+  NSData *data = [JSON dataUsingEncoding:NSUTF8StringEncoding];
+  NSDictionary *dictionary =
+  [NSJSONSerialization JSONObjectWithData:data
+                                  options:0
+                                    error:nil];
+  return dictionary;
+}
+
+
+- (NSString *)JSON
 {
   NSData* data =
   [NSJSONSerialization dataWithJSONObject:self
