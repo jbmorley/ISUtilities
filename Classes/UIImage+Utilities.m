@@ -1,24 +1,34 @@
 //
-//  ISImage.m
-//  Pods
+// Copyright (c) 2013 InSeven Limited.
 //
-//  Created by Jason Barrie Morley on 17/02/2014.
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
 //
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
 //
 
-#import "ISImage.h"
-
-// TODO Consider whether the API counting could be more helpful
-// as a utility class.
-// TODO Should these be a UIImage extension?
+#import "UIImage+Utilities.h"
 
 static NSUInteger sImageIdentifier = 0;
 
-@implementation ISImage
+@implementation UIImage (Utilities)
 
 + (NSUInteger)loadImage:(NSString *)path
               greyscale:(BOOL)greyscale
-             completion:(ISImageCompletionBlock)completionBlock
+             completion:(UIImageUtilitiesCompletionBlock)completionBlock
 {
   // Count the calls.
   sImageIdentifier++;
@@ -52,7 +62,7 @@ static NSUInteger sImageIdentifier = 0;
 
 
 + (NSUInteger)loadImage:(NSString *)path
-             completion:(ISImageCompletionBlock)completionBlock
+             completion:(UIImageUtilitiesCompletionBlock)completionBlock
 {
   return [self loadImage:path
                greyscale:NO
