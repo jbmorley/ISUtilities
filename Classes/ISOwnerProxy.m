@@ -30,20 +30,55 @@
   return proxy.view;
 }
 
+
++ (id)proxyWithBundle:(NSBundle *)bundle
+              nibName:(NSString *)nibName
+{
+  return [[self alloc] initWithBundle:bundle
+                              nibName:nibName];
+}
+
+
++ (id)proxyWithBundleName:(NSString *)bundleName
+                  nibName:(NSString *)nibName
+{
+  return [[self alloc] initWithBundleName:bundleName
+                                  nibName:nibName];
+}
+
+
 + (id)proxyWithNibName:(NSString *)nibName
 {
   return [[self alloc] initWithNibName:nibName];
 }
 
-- (id)initWithNibName:(NSString *)nibName
+
+- (id)initWithBundle:(NSBundle *)bundle
+             nibName:(NSString *)nibName
 {
   self = [super init];
   if (self) {
-    [[NSBundle mainBundle] loadNibNamed:nibName
-                                  owner:self
-                                options:nil];
+    [bundle loadNibNamed:nibName
+                   owner:self
+                 options:nil];
   }
   return self;
 }
+
+
+- (id)initWithBundleName:(NSString *)bundleName
+                 nibName:(NSString *)nibName
+{
+  NSBundle* bundle = [NSBundle bundleWithURL:[[NSBundle mainBundle] URLForResource:bundleName withExtension:@"bundle"]];
+  return [self initWithBundle:bundle nibName:nibName];
+}
+
+
+- (id)initWithNibName:(NSString *)nibName
+{
+  return [self initWithBundle:[NSBundle mainBundle]
+                      nibName:nibName];
+}
+
 
 @end

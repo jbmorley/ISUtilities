@@ -27,7 +27,15 @@
 @property (strong, nonatomic) IBOutlet UIView* view;
 
 + (UIView *)viewFromNib:(NSString *)nibName;
++ (id)proxyWithBundle:(NSBundle *)bundle
+              nibName:(NSString *)nibName;
++ (id)proxyWithBundleName:(NSString *)bundleName
+                  nibName:(NSString *)nibName;
 + (id)proxyWithNibName:(NSString *)nibName;
+- (id)initWithBundle:(NSBundle *)bundle
+             nibName:(NSString *)nibName;
+- (id)initWithBundleName:(NSString *)bundleName
+                 nibName:(NSString *)nibName;
 - (id)initWithNibName:(NSString *)nibName;
 
 @end
