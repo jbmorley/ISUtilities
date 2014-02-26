@@ -22,6 +22,11 @@
 
 #import <Foundation/Foundation.h>
 
+typedef enum {
+  ISImageScaleAspectFit,
+  ISImageScaleAspectFill,
+} ISImageScale;
+
 typedef void (^UIImageUtilitiesCompletionBlock)(NSUInteger identifier, UIImage *image);
 
 @interface UIImage (Utilities)
@@ -35,5 +40,7 @@ typedef void (^UIImageUtilitiesCompletionBlock)(NSUInteger identifier, UIImage *
          withScale:(CGFloat)scale;
 + (UIImage *)imageWithDeviceScale:(UIImage *)image;
 + (UIImage *)convertImageToGrayScale:(UIImage *)image;
+- (UIImage *)imageWithSize:(CGSize)size
+               scalingMode:(ISImageScale)scalingMode;
 
 @end

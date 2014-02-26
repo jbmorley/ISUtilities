@@ -125,4 +125,66 @@ static NSUInteger sImageIdentifier = 0;
   return newImage;
 }
 
+- (UIImage *)imageWithSize:(CGSize)size
+               scalingMode:(ISImageScale)scalingMode
+{
+  // Get the current image dimensions.
+  CGSize currentSize = self.size;
+  
+  // Preferences.
+  CGSize targetSize = size;
+  ISImageScale scale = scalingMode;
+  
+  // Calculate the appropriate dimensions.
+  CGSize newSize = targetSize;
+  CGSize canvasSize = targetSize;
+  if (scale == ISImageScaleAspectFit) {
+    
+    CGFloat targetRatio = targetSize.width/targetSize.height;
+    CGFloat currentRatio = currentSize.width/currentSize.height;
+    
+    if (currentRatio < targetRatio) {
+      // Current is narrower.
+      newSize.width = targetSize.height * currentRatio;
+    } else {
+      // Current is wider.
+      newSize.height = targetSize.width / currentRatio;
+    }
+    
+    // Since we're using a 'fit' the canvas size and new size
+    // will always be equal.
+    canvasSize = newSize;
+    
+  } else if (scale == ISImageScaleAspectFill) {
+    
+    CGFloat targetRatio = targetSize.width/targetSize.height;
+    CGFloat currentRatio = currentSize.width/currentSize.height;
+    
+    if (currentRatio < targetRatio) {
+      newSize.height = targetSize.height / currentRatio;
+    } else {
+      newSize.width = targetSize.width * currentRatio;
+    }
+    
+    // Since we're using a 'fill' the canvas size will always
+    // be the requested size.
+    canvasSize = targetSize;
+    
+  }
+  
+  // Resize the image.
+  CGFloat screenScale = [[UIScreen mainScreen] scale];
+  UIGraphicsBeginImageContextWithOptions(canvasSize,
+                                         NO,
+                                         screenScale);
+  [self drawInRect:CGRectMake(0,
+                              0,
+                              newSize.width,
+                              newSize.height)];
+  UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+  UIGraphicsEndImageContext();
+
+  return newImage;
+}
+
 @end
