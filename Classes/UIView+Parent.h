@@ -10,6 +10,7 @@
 
 @interface UIView (Parent)
 
+- (BOOL)containsCurrentFirstResponder;
 - (BOOL)resignCurrentFirstResponder;
 - (BOOL)hasSuperviewOfKindOfClass:(Class)aClass;
 

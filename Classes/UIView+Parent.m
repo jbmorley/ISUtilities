@@ -11,26 +11,38 @@
 @implementation UIView (Parent)
 
 
+- (BOOL)containsCurrentFirstResponder
+{
+  if ([self isFirstResponder]) {
+    return YES;
+  }
+  
+  for (UIView *view in self.subviews) {
+    if ([view containsCurrentFirstResponder]) {
+      return YES;
+    }
+  }
+  
+  return NO;
+}
+
+
 - (BOOL)resignCurrentFirstResponder
 {
   if ([self isFirstResponder]) {
-    
-    // Check ourselves.
     [self resignFirstResponder];
     return YES;
-    
-  } else {
-    
-    // Iterate over our children.
-    for (UIView *view in self.subviews) {
-      if ([view resignCurrentFirstResponder]) {
-        return YES;
-      }
-    }
-    
   }
+  
+  for (UIView *view in self.subviews) {
+    if ([view resignCurrentFirstResponder]) {
+      return YES;
+    }
+  }
+
   return NO;
 }
+
 
 - (BOOL)hasSuperviewOfKindOfClass:(Class)aClass
 {
