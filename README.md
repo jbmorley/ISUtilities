@@ -150,16 +150,23 @@ A convenience category on UIView offering three bits of functionality:
 - (BOOL)containsCurrentFirstResponder
 ```
 
+Returns `YES` if the UIView or any of its subviews is the current first responder, `NO` otherwise.
+
 #### resignCurrentFirstResponder
 
 ```objc
 - (BOOL)resignCurrentFirstResponder
 ```
 
+Resigns the first responder for the  UIView and any of its subviews.
+
 #### hasSuperviewOfKindOfClass:
 
 ```objc
 - (BOOL)hasSuperviewOfKindOfClass:(Class)aClass
 ```
+
+Walks the UIView's superviews and returns `YES` if any are of kind of class `aClass`, `NO` otherwise.
+
 
 ### UIImage+Utilities
