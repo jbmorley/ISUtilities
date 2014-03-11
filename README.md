@@ -37,9 +37,25 @@ Notes:
 - It is recommended that you wrap the calls to `addObserver:` and `removeObserver:` with ones which enforce a protocol to avoid adding the wrong type of class or simply failing to implement one of your observer selectors.
 
 
-### ISDevice
-### ISTableViewSubtitleCell
 ### NSDictionary+JSON
+
+JSON serialization and de-serialization category for NSDictionary:
+
+```objc
+#import <ISUtilities/NSDictionary+JSON.h>
+
+// Serialization.
+NSDictionary *outDict = @{@"title": @"cheese"};
+NSString *json = [outDict JSON];
+NSLog(@"%@", json); // {"title": "cheese"}
+
+// De-serialization.
+NSDictionary *inDict = [NSDictionary dictionaryWithJSON:json];
+NSLog(@"Title: %@", outDict[@"title"]); // Title: cheese
+```
+
+
+### ISDevice
 ### NSObject+Serialize
 ### UIAlertView+Block
 ### UIApplication+Activity
