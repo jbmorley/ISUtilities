@@ -27,6 +27,5 @@
 #import "NSObject+Serialize.h"
 #import "UIAlertView+Block.h"
 #import "UIApplication+Activity.h"
-#import "UIImage+Utilities.h"
 #import "UIView+Utilities.h"
 
