@@ -55,7 +55,6 @@ NSLog(@"Title: %@", outDict[@"title"]); // Title: cheese
 ```
 
 
-### ISDevice
 ### NSObject+Serialize
 ### UIAlertView+Block
 ### UIApplication+Activity

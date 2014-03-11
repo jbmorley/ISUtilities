@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "ISUtilities"
-  s.version      = "0.0.1"
+  s.version      = "1.0.0"
   s.summary      = "Objective-C utility classes"
   s.homepage     = "https://github.com/jbmorley/ISUtilities"
   s.license      = { :type => 'MIT', :file => 'LICENSE' }
