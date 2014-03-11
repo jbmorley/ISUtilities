@@ -20,13 +20,12 @@
 // SOFTWARE.
 // 
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
-#import "ISNotifier.h"
-#import "NSDictionary+JSON.h"
-#import "NSObject+Serialize.h"
-#import "UIAlertView+Block.h"
-#import "UIApplication+Activity.h"
-#import "UIImage+Utilities.h"
-#import "UIView+Utilities.h"
+@interface UIView (Parent)
 
+- (BOOL)containsCurrentFirstResponder;
+- (BOOL)resignCurrentFirstResponder;
+- (BOOL)hasSuperviewOfKindOfClass:(Class)aClass;
+
+@end

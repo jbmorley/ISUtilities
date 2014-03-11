@@ -20,13 +20,51 @@
 // SOFTWARE.
 // 
 
-#import <Foundation/Foundation.h>
-
-#import "ISNotifier.h"
-#import "NSDictionary+JSON.h"
-#import "NSObject+Serialize.h"
-#import "UIAlertView+Block.h"
-#import "UIApplication+Activity.h"
-#import "UIImage+Utilities.h"
 #import "UIView+Utilities.h"
 
+@implementation UIView (Parent)
+
+
+- (BOOL)containsCurrentFirstResponder
+{
+  if ([self isFirstResponder]) {
+    return YES;
+  }
+  
+  for (UIView *view in self.subviews) {
+    if ([view containsCurrentFirstResponder]) {
+      return YES;
+    }
+  }
+  
+  return NO;
+}
+
+
+- (BOOL)resignCurrentFirstResponder
+{
+  if ([self isFirstResponder]) {
+    [self resignFirstResponder];
+    return YES;
+  }
+  
+  for (UIView *view in self.subviews) {
+    if ([view resignCurrentFirstResponder]) {
+      return YES;
+    }
+  }
+
+  return NO;
+}
+
+
+- (BOOL)hasSuperviewOfKindOfClass:(Class)aClass
+{
+  if ([self isKindOfClass:aClass]) {
+    return YES;
+  } else {
+    return [self.superview hasSuperviewOfKindOfClass:aClass];
+  }
+}
+
+@end
