@@ -10,6 +10,17 @@ Objective-C utility classes used in various InSeven Limited libraries and projec
 - [UIApplication+Activity](#uiapplicationactivity)
 - [UIView+Utilities](#uiviewutilities)
 
+Installation
+------------
+
+ISUtilities is available through [CocoaPods](http://cocoapods.org/):
+
+```
+platform: ios, '6.0'
+
+pod "ISUtilities", "~> 1.0"
+```
+
 Classes
 -------
 
@@ -177,7 +188,5 @@ Walks the UIView's superviews and returns `YES` if any are of kind of class `aCl
 
 License
 -------
-
-License
 
 ISUtilities is available under the MIT license. See the LICENSE file for more info.
