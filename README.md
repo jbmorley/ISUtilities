@@ -10,10 +10,6 @@ Classes
 
 A lightweight notificaion mechanism for observers for situations where NSNotificationCenter requires too much boiler-plate code or isn't explicit enough:
 
-- Observers are added and removed with the `addObserver:` and `removeObserver:` methods.
-- Notifications are dispatched to all observers which respond to a given selector using the `notify:withObject:withObject:...` methods.
-- Observers are weakly referenced so it is not necessary to remove them when observers are released.
-
 
 ```objc
 #import <ISUtilities/ISNotifier.h>
@@ -22,7 +18,7 @@ A lightweight notificaion mechanism for observers for situations where NSNotific
 ISNotifier *notifier = [ISNotifier new];
 
 // Add an observer.
-id anObserver = [... new];
+id anObserver = [YourCustomClass new];
 [notifier addObserver:anObserver];
 
 // Notifying all observers.
@@ -32,7 +28,14 @@ id anObserver = [... new];
 // Remove the observer (optional)
 [notifier removeObserver:anObserver];
 ```
-    
+
+Notes:
+
+- Observers are added and removed with the `addObserver:` and `removeObserver:` methods.
+- Observers are weakly referenced so it is not necessary to remove them when observers are released.
+- Notifications are dispatched to all observers which respond to a given selector using the `notify:withObject:withObject:...` methods. 
+- It is recommended that you wrap the calls to `addObserver:` and `removeObserver:` with ones which enforce a protocol to avoid adding the wrong type of class or simply failing to implement one of your observer selectors.
+
 
 ### ISDevice
 ### ISTableViewSubtitleCell
