@@ -81,6 +81,32 @@ This can prove userful if it is necessary to ensure that an NSDictionary or NSAr
 
 
 ### UIAlertView+Block
+
+Initialize a UIAlertView with a completion block to avoid the need to conform to the `UIAlertViewDelegate` protocol and implementing `alertView:clickedButtonAtIndex:`:
+
+```objc
+#import <ISUtilities/ISUtilities.h>
+
+// Create the UIAlertView.
+UIAlertView *alertView =
+[UIAlertView alloc] initWithTitle:@"Alert"
+                        message:@"Click a button..."
+                completionBlock:^(NSUInteger buttonIndex) {
+                                  if (buttonIndex == 0) {
+                                    // Cancel...
+                                  } else if (buttonIndex == 1) {
+                                    // One...
+                                  } else if (buttonIndex == 2) {
+                                    // Two...
+                                  }
+                                }
+              cancelButtonTitle:@"Cancel"
+              otherButtonTitles:@"One", @"Two", nil]];
+
+// Show the alert view.
+[alertView show];
+```
+
 ### UIApplication+Activity
 ### UIImage+Utilities
 ### UIView+Parent
