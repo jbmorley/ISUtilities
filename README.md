@@ -35,6 +35,7 @@ Notes:
 - Observers are weakly referenced so it is not necessary to remove them when observers are released.
 - Notifications are dispatched to all observers which respond to a given selector using the `notify:withObject:withObject:...` methods. 
 - It is recommended that you wrap the calls to `addObserver:` and `removeObserver:` with ones which enforce a protocol to avoid adding the wrong type of class or simply failing to implement one of your observer selectors.
+- ISNotifier is not thread-safe.
 
 
 ### NSDictionary+JSON
@@ -107,6 +108,37 @@ UIAlertView *alertView =
 [alertView show];
 ```
 
+
 ### UIApplication+Activity
+
+Thread-safe category for managing the UIApplication network activity indicator by simply counting calls to `beginNetworkActivity` and `endNetworkActivity`:
+
+```objc
+#import <ISUtilities/ISUtilities.h>
+
+// Long-running task.
+dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
+  // Begin network activity.
+  [[UIApplication sharedApplication] beginNetworkActivity];
+
+  // Do some work...
+  
+  // End network activity.
+  [[UIApplication sharedApplication] endNetworkActivity];
+});
+
+// Another long-running task.
+dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
+  // Begin network activity.
+  [[UIApplication sharedApplication] beginNetworkActivity];
+
+  // Do other work...
+  
+  // End network activity.
+  [[UIApplication sharedApplication] endNetworkActivity];
+});
+```
+
+
 ### UIImage+Utilities
 ### UIView+Parent
