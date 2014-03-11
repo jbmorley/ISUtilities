@@ -25,7 +25,7 @@ id anObserver = [YourCustomClass new];
 [notifier notify:@selector(didUpdate:) 
       withObject:self];
 
-// Remove the observer (optional)
+// Remove the observer (optional).
 [notifier removeObserver:anObserver];
 ```
 
@@ -62,6 +62,7 @@ Category for checking whether an NSObject can be serialized using the `writeToFi
 ```objc
 #import <ISUtilities/ISUtilities.h>
 
+// Dictionary containing safe objects.
 NSDictionary *valid =
 @{@"items":
   @[@"one",
@@ -69,6 +70,7 @@ NSDictionary *valid =
     @"three"]};
 BOOL checkValid = [valid canWriteToFile]; // YES
 
+// Dictionary containing unsafe objects.
 NSArry *invalid =
 @[[YourCustomClass new],
   [YourCustomClass new]];
