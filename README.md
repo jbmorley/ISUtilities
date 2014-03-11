@@ -1,7 +1,15 @@
 ISUtilities
 ===========
 
-Objective-C utility classes used in various InSeven Limited libraries and projects.
+Objective-C utility classes used in various InSeven Limited libraries and projects:
+
+- ISNotifier
+- NSDictionary+JSON
+- NSObject+Serialize
+- UIAlertView+Block
+- UIApplication+Activity
+- UIView+Utilities
+- UIImage+Utilities
 
 Classes
 -------
@@ -140,7 +148,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(
 ```
 
 
-### UIView+Parent
+### UIView+Utilities
 
 A convenience category on UIView offering three bits of functionality:
 
