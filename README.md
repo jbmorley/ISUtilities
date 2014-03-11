@@ -89,19 +89,19 @@ Initialize a UIAlertView with a completion block to avoid the need to conform to
 
 // Create the UIAlertView.
 UIAlertView *alertView =
-[UIAlertView alloc] initWithTitle:@"Alert"
-                        message:@"Click a button..."
-                completionBlock:^(NSUInteger buttonIndex) {
-                                  if (buttonIndex == 0) {
-                                    // Cancel...
-                                  } else if (buttonIndex == 1) {
-                                    // One...
-                                  } else if (buttonIndex == 2) {
-                                    // Two...
-                                  }
-                                }
-              cancelButtonTitle:@"Cancel"
-              otherButtonTitles:@"One", @"Two", nil]];
+[[UIAlertView alloc] initWithTitle:@"Alert"
+                         message:@"Click a button..."
+                 completionBlock:^(NSUInteger buttonIndex) {
+                                   if (buttonIndex == 0) {
+                                     // Cancel...
+                                   } else if (buttonIndex == 1) {
+                                     // One...
+                                   } else if (buttonIndex == 2) {
+                                     // Two...
+                                   }
+                                 }
+               cancelButtonTitle:@"Cancel"
+               otherButtonTitles:@"One", @"Two", nil];
 
 // Show the alert view.
 [alertView show];
