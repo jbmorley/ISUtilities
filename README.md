@@ -3,7 +3,7 @@ ISUtilities
 
 Objective-C utility classes used in various InSeven Limited libraries and projects:
 
-- ISNotifier
+- [ISNotifier](#isnotifier)
 - NSDictionary+JSON
 - NSObject+Serialize
 - UIAlertView+Block
