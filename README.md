@@ -12,7 +12,7 @@ A lightweight notificaion mechanism for observers for situations where NSNotific
 
 
 ```objc
-#import <ISUtilities/ISNotifier.h>
+#import <ISUtilities/ISUtilities.h>
     
 // Construct the notifier.
 ISNotifier *notifier = [ISNotifier new];
@@ -42,7 +42,7 @@ Notes:
 JSON serialization and de-serialization category for NSDictionary:
 
 ```objc
-#import <ISUtilities/NSDictionary+JSON.h>
+#import <ISUtilities/ISUtilities.h>
 
 // Serialization.
 NSDictionary *outDict = @{@"title": @"cheese"};
@@ -56,6 +56,28 @@ NSLog(@"Title: %@", outDict[@"title"]); // Title: cheese
 
 
 ### NSObject+Serialize
+
+Category for checking whether an NSObject can be serialized using the `writeToFile:atomically:` and `writeToURL:atomically:` methods:
+
+```objc
+#import <ISUtilities/ISUtilities.h>
+
+NSDictionary *valid =
+@{@"items":
+  @[@"one",
+    @"two",
+    @"three"]};
+BOOL checkValid = [valid canWriteToFile]; // YES
+
+NSArry *invalid =
+@[[YourCustomClass new],
+  [YourCustomClass new]];
+BOOL checkInvalid = [invalid canWriteToFile]; // NO
+```
+
+This can prove userful if it is necessary to ensure that an NSDictionary or NSArray and its contents can be safely stored to file. It works by validating that every object is an instance of `NSData`, `NSDate`, `NSNumber`, `NSString`, `NSArray`, or `NSDictionary` (as described in the documentation for `NSArray`  and `NSDictionary`).
+
+
 ### UIAlertView+Block
 ### UIApplication+Activity
 ### UIImage+Utilities
