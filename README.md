@@ -140,5 +140,26 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(
 ```
 
 
-### UIImage+Utilities
 ### UIView+Parent
+
+A convenience category on UIView offering three bits of functionality:
+
+#### containsCurrentFirstResponder
+
+```objc
+- (BOOL)containsCurrentFirstResponder
+```
+
+#### resignCurrentFirstResponder
+
+```objc
+- (BOOL)resignCurrentFirstResponder
+```
+
+#### hasSuperviewOfKindOfClass:
+
+```objc
+- (BOOL)hasSuperviewOfKindOfClass:(Class)aClass
+```
+
+### UIImage+Utilities
