@@ -158,7 +158,7 @@ Returns `YES` if the UIView or any of its subviews is the current first responde
 - (BOOL)resignCurrentFirstResponder
 ```
 
-Resigns the first responder for the  UIView and any of its subviews.
+Resigns the first responder for the  UIView and any of its subviews. Returns `YES` if a first responder was found and successfully resigned, `NO` otherwise.
 
 #### hasSuperviewOfKindOfClass:
 
