@@ -30,16 +30,20 @@ static char *const kNetworkActivityCount = "is_networkActivityCount";
 
 - (void)beginNetworkActivity
 {
-  self.networkActivityCount++;
-  self.networkActivityIndicatorVisible = YES;
+  @synchronized(self) {
+    self.networkActivityCount++;
+    self.networkActivityIndicatorVisible = YES;
+  }
 }
 
 
 - (void)endNetworkActivity
 {
-  self.networkActivityCount--;
-  if (self.networkActivityCount <= 0) {
-    self.networkActivityIndicatorVisible = NO;
+  @synchronized(self) {
+    self.networkActivityCount--;
+    if (self.networkActivityCount <= 0) {
+      self.networkActivityIndicatorVisible = NO;
+    }
   }
 }
 
