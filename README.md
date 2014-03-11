@@ -174,3 +174,10 @@ Resigns the first responder for the  UIView and any of its subviews. Returns `YE
 ```
 
 Walks the UIView's superviews and returns `YES` if any are of kind of class `aClass`, `NO` otherwise.
+
+License
+-------
+
+License
+
+ISUtilities is available under the MIT license. See the LICENSE file for more info.
