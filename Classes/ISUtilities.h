@@ -29,4 +29,5 @@
 #import "UIApplication+Activity.h"
 #import "UIApplication+IdleTimer.h"
 #import "UIView+Utilities.h"
+#import "UINavigationController+Pops.h"
 
