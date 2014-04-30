@@ -201,6 +201,17 @@ Resigns the first responder for the  UIView and any of its subviews. Returns `YE
 
 Walks the UIView's superviews and returns `YES` if any are of kind of class `aClass`, `NO` otherwise.
 
+Changelog
+---------
+
+### 1.0.1
+
+- FIX: Support for NULL blocks in UIAlertView+Block.
+
+### 1.0.0
+
+- Initiial release.
+
 License
 -------
 
