@@ -14,7 +14,7 @@
                                animated:(BOOL)animated
 {
   UIViewController *viewController = nil;
-  for (int i = self.viewControllers.count - 1; i >= 0; --i) {
+  for (int i = (int)self.viewControllers.count - 1; i >= 0; --i) {
     if ([self.viewControllers[i] isKindOfClass:aClass]) {
       viewController = self.viewControllers[i];
       break;
