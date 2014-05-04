@@ -210,7 +210,7 @@ Changelog
 
 ### 1.0.0
 
-- Initiial release.
+- Initial release.
 
 License
 -------
