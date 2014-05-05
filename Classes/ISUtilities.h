@@ -31,4 +31,5 @@
 #import "UIView+Utilities.h"
 #import "UINavigationController+Pops.h"
 #import "NSObject+Threads.h"
+#import "ISCancelable.h"
 #import "ISCancelToken.h"

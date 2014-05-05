@@ -21,19 +21,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ISCancelable.h"
 
-@protocol ISCancelTokenObserver
-
-- (void)tokenDidCancel;
-
-@end
-
-@interface ISCancelToken : NSObject <ISCancelable>
+@protocol ISCancelable <NSObject>
 
 - (void)cancel;
-- (BOOL)isCancelled;
-- (void)addObserver:(id)observer;
-- (void)removeObserver:(id)observer;
 
 @end
