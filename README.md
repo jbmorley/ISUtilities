@@ -204,11 +204,11 @@ Walks the UIView's superviews and returns `YES` if any are of kind of class `aCl
 Changelog
 ---------
 
-### 1.0.1
+Version 1.0.1
 
 - FIX: Support for NULL blocks in UIAlertView+Block.
 
-### 1.0.0
+Version 1.0.0
 
 - Initial release.
 
