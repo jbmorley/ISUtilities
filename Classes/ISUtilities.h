@@ -23,6 +23,8 @@
 #import <Foundation/Foundation.h>
 
 #import "ISNotifier.h"
+#import "ISWeakReference.h"
+#import "ISWeakReferenceArray.h"
 #import "NSDictionary+JSON.h"
 #import "NSObject+Serialize.h"
 #import "UIAlertView+Block.h"

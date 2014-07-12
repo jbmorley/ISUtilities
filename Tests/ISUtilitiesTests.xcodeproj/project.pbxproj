@@ -12,7 +12,7 @@
 		D82F3287197179110053F0C2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D82F3286197179110053F0C2 /* Foundation.framework */; };
 		D82F3289197179110053F0C2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D82F3288197179110053F0C2 /* UIKit.framework */; };
 		D82F328F197179110053F0C2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D82F328D197179110053F0C2 /* InfoPlist.strings */; };
-		D82F3291197179110053F0C2 /* ISUtilitiesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D82F3290197179110053F0C2 /* ISUtilitiesTests.m */; };
+		D82F3291197179110053F0C2 /* ISWeakReferenceArrayTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D82F3290197179110053F0C2 /* ISWeakReferenceArrayTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,7 +24,7 @@
 		D82F3288197179110053F0C2 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		D82F328C197179110053F0C2 /* ISUtilitiesTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ISUtilitiesTests-Info.plist"; sourceTree = "<group>"; };
 		D82F328E197179110053F0C2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		D82F3290197179110053F0C2 /* ISUtilitiesTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISUtilitiesTests.m; sourceTree = "<group>"; };
+		D82F3290197179110053F0C2 /* ISWeakReferenceArrayTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISWeakReferenceArrayTests.m; sourceTree = "<group>"; };
 		D82F3292197179110053F0C2 /* ISUtilitiesTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ISUtilitiesTests-Prefix.pch"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -65,7 +65,7 @@
 		D82F328A197179110053F0C2 /* ISUtilitiesTests */ = {
 			isa = PBXGroup;
 			children = (
-				D82F3290197179110053F0C2 /* ISUtilitiesTests.m */,
+				D82F3290197179110053F0C2 /* ISWeakReferenceArrayTests.m */,
 				D82F328B197179110053F0C2 /* Supporting Files */,
 			);
 			path = ISUtilitiesTests;
@@ -187,7 +187,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D82F3291197179110053F0C2 /* ISUtilitiesTests.m in Sources */,
+				D82F3291197179110053F0C2 /* ISWeakReferenceArrayTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

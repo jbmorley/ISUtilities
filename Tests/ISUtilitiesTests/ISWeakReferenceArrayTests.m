@@ -21,26 +21,52 @@
 //
 
 #import <XCTest/XCTest.h>
+#import <ISUtilities/ISUtilities.h>
 
-@interface ISUtilitiesTests : XCTestCase
+@interface ISWeakReferenceArrayTests : XCTestCase
+
+@property (nonatomic, strong) ISWeakReferenceArray *array;
 
 @end
 
-@implementation ISUtilitiesTests
+@implementation ISWeakReferenceArrayTests
+
 
 - (void)setUp
 {
   [super setUp];
 }
 
+
 - (void)tearDown
 {
+  self.array = nil;
   [super tearDown];
 }
+
+
+- (void)testInit
+{
+  ISWeakReferenceArray *array = [[ISWeakReferenceArray alloc] init];
+  NSNumber *item = @1;
+  [array addObject:item];
+  XCTAssertTrue([array count] == 1, @"Construct an array using alloc init and add an item.");
+}
+
+
+- (void)testInitWithCapacity
+{
+  ISWeakReferenceArray *array = [[ISWeakReferenceArray alloc] initWithCapacity:3];
+  NSNumber *item = @1;
+  [array addObject:item];
+  XCTAssertTrue([array count] == 1, @"Construct an array with an initial capacity and add an item.");
+}
+
 
 - (void)testExample
 {
   XCTAssertTrue(YES, @"Simple test.");
 }
+
 
 @end

@@ -38,6 +38,16 @@
 }
 
 
+- (id)init
+{
+  self = [super init];
+  if (self) {
+    self.items = [[NSMutableArray alloc] init];
+  }
+  return self;
+}
+
+
 - (id)initWithCapacity:(NSUInteger)numItems
 {
   self = [super init];
