@@ -35,6 +35,7 @@
 - (void)setUp
 {
   [super setUp];
+  self.array = [[ISWeakReferenceArray alloc] init];
 }
 
 
@@ -63,9 +64,13 @@
 }
 
 
-- (void)testExample
+- (void)testDeallocation
 {
-  XCTAssertTrue(YES, @"Simple test.");
+  {
+    NSNumber *item = @1;
+    [self.array addObject:item];
+  }
+  XCTAssertTrue([self.array count] == 0, @"Check that an item is removed when it it is released.");
 }
 
 
