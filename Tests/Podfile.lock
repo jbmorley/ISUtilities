@@ -1,0 +1,14 @@
+PODS:
+  - ISUtilities (1.0.1)
+
+DEPENDENCIES:
+  - ISUtilities (from `../`)
+
+EXTERNAL SOURCES:
+  ISUtilities:
+    :path: ../
+
+SPEC CHECKSUMS:
+  ISUtilities: b015eb6f4dd9b8492a3e6bacceb50738f4f53c53
+
+COCOAPODS: 0.33.1
