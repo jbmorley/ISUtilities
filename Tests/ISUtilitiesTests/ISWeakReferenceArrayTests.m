@@ -84,7 +84,7 @@
 {
   ISWeakReference *reference;
   @autoreleasepool {
-    NSNumber *item = @1;
+    __attribute__((objc_precise_lifetime)) NSObject *item = [NSObject new];
     reference = [[ISWeakReference alloc] initWithObject:item];
   }
   XCTAssertNil(reference.object, @"Checking that a weak reference does not retain its object and nils its reference.");
@@ -112,7 +112,7 @@
 - (void)testDeallocation
 {
   @autoreleasepool {
-    NSNumber *item = @1;
+    __attribute__((objc_precise_lifetime)) NSObject *item = [NSObject new];
     [self.array addObject:item];
   }
   XCTAssertTrue([self.array count] == 0, @"Check that an item is removed when it it is released.");
