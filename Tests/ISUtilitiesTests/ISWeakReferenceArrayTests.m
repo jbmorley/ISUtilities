@@ -83,9 +83,9 @@
 - (void)testReferenceDoesNotRetain
 {
   ISWeakReference *reference;
-  {
-    reference = [[ISWeakReference alloc] initWithObject:item];
+  @autoreleasepool {
     NSNumber *item = @1;
+    reference = [[ISWeakReference alloc] initWithObject:item];
   }
   XCTAssertNil(reference.object, @"Checking that a weak reference does not retain its object and nils its reference.");
 }
@@ -111,7 +111,7 @@
 
 - (void)testDeallocation
 {
-  {
+  @autoreleasepool {
     NSNumber *item = @1;
     [self.array addObject:item];
   }
