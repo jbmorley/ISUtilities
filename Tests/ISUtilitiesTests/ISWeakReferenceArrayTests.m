@@ -45,11 +45,49 @@
   [super tearDown];
 }
 
+
+- (void)testReferenceEquals
+{
+  NSNumber *item = @1;
+  ISWeakReference *reference1 = [[ISWeakReference alloc] initWithObject:item];
+  ISWeakReference *reference2 = [[ISWeakReference alloc] initWithObject:item];
+  XCTAssertTrue([reference1 isEqual:reference2], @"Check that two references containing the same object are equal.");
+}
+
+
 - (void)testReferenceHash
 {
-  NSNumber *item1 = @1;
-  ISWeakReference *reference1 = [[ISWeakReference alloc] initWithObject:item1];
-  XCTAssertEqualObjects(item1, reference1, @"Checking that an object and its corresponding weak reference are equal.");
+  NSNumber *item = @1;
+  ISWeakReference *reference1 = [[ISWeakReference alloc] initWithObject:item];
+  ISWeakReference *reference2 = [[ISWeakReference alloc] initWithObject:item];
+  XCTAssertEqual([reference1 hash], [reference2 hash], @"Check that two references containing the same object have matching hashes.");
+}
+
+
+- (void)testReferenceEqualsObject
+{
+  NSNumber *item = @1;
+  ISWeakReference *reference = [[ISWeakReference alloc] initWithObject:item];
+  XCTAssertEqualObjects(reference, item, @"Checking that an object and its corresponding weak reference are equal.");
+}
+
+
+- (void)testReferenceHashMatchesObjectHash
+{
+  NSNumber *item = @1;
+  ISWeakReference *reference = [[ISWeakReference alloc] initWithObject:item];
+  XCTAssertEqual([reference hash], [item hash], @"Checking that an object and its corresponding weak reference have matching hashes.");
+}
+
+
+- (void)testReferenceDoesNotRetain
+{
+  ISWeakReference *reference;
+  {
+    reference = [[ISWeakReference alloc] initWithObject:item];
+    NSNumber *item = @1;
+  }
+  XCTAssertNil(reference.object, @"Checking that a weak reference does not retain its object and nils its reference.");
 }
 
 
