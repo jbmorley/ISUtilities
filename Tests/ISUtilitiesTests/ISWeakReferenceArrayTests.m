@@ -45,6 +45,13 @@
   [super tearDown];
 }
 
+- (void)testReferenceHash
+{
+  NSNumber *item1 = @1;
+  ISWeakReference *reference1 = [[ISWeakReference alloc] initWithObject:item1];
+  XCTAssertEqualObjects(item1, reference1, @"Checking that an object and its corresponding weak reference are equal.");
+}
+
 
 - (void)testInit
 {
