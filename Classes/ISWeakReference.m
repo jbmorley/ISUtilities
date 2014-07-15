@@ -35,7 +35,7 @@
 {
   self = [super init];
   if (self) {
-    self.object = object;
+    _object = object;
   }
   return self;
 }

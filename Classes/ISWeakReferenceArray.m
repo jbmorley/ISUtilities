@@ -42,7 +42,7 @@
 {
   self = [super init];
   if (self) {
-    self.items = [[NSMutableArray alloc] init];
+    _items = [[NSMutableArray alloc] init];
   }
   return self;
 }
@@ -52,7 +52,7 @@
 {
   self = [super init];
   if (self) {
-    self.items = [NSMutableArray arrayWithCapacity:numItems];
+    _items = [NSMutableArray arrayWithCapacity:numItems];
   }
   return self;
 }
