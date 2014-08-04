@@ -63,21 +63,21 @@
 
 - (void)notify:(SEL)selector
 {
-  for (id object in self.observers) {
+  [self.observers enumerateObjectsUsingBlock:^(id object, __unused NSUInteger idx, __unused BOOL *stop) {
     if ([object respondsToSelector:selector]) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
       [object performSelector:selector];
 #pragma clang diagnostic pop
     }
-  }
+  }];
 }
 
 
 - (void)notify:(SEL)selector
     withObject:(id)anObject
 {
-  for (id object in self.observers) {
+  [self.observers enumerateObjectsUsingBlock:^(id object, __unused NSUInteger idx, __unused BOOL *stop) {
     if ([object respondsToSelector:selector]) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
@@ -85,7 +85,7 @@
                    withObject:anObject];
 #pragma clang diagnostic pop
     }
-  }
+  }];
 }
 
 
@@ -93,7 +93,7 @@
     withObject:(id)anObject
     withObject:(id)anotherObject
 {
-  for (id object in self.observers) {
+  [self.observers enumerateObjectsUsingBlock:^(id object, __unused NSUInteger idx, __unused BOOL *stop) {
     if ([object respondsToSelector:selector]) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
@@ -102,7 +102,7 @@
                    withObject:anotherObject];
 #pragma clang diagnostic pop
     }
-  }
+  }];
 }
 
 
@@ -111,7 +111,10 @@
     withObject:(id)anotherObject
     withObject:(id)yetAnotherObject
 {
-  for (id object in self.observers) {
+  __strong id *anObjectP = &anObject;
+  __strong id *anotherObjectP = &anotherObject;
+  __strong id *yetAnotherObjectP = &yetAnotherObject;
+  [self.observers enumerateObjectsUsingBlock:^(id object, __unused NSUInteger idx, __unused BOOL *stop) {
     if ([object respondsToSelector:selector]) {
       
       // Construct an NSInvocation for the selector.
@@ -119,15 +122,15 @@
       NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:methodSignature];
       [invocation setTarget:object];
       [invocation setSelector:selector];
-      [invocation setArgument:&anObject
+      [invocation setArgument:anObjectP
                       atIndex:2];
-      [invocation setArgument:&anotherObject
+      [invocation setArgument:anotherObjectP
                       atIndex:3];
-      [invocation setArgument:&yetAnotherObject
+      [invocation setArgument:yetAnotherObjectP
                       atIndex:4];
       [invocation invoke];
     }
-  }
+  }];
 }
 
 
