@@ -22,7 +22,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface ISWeakReferenceArray : NSObject <NSFastEnumeration>
+@interface ISWeakReferenceArray : NSObject
 
 @property (nonatomic, readonly) NSUInteger count;
 
@@ -32,5 +32,7 @@
 - (BOOL)containsObject:(id)anObject;
 - (void)addObject:(id)anObject;
 - (void)removeObject:(id)anObject;
+- (void)enumerateObjectsUsingBlock:(void (^)(id obj, NSUInteger idx, BOOL *stop))block;
+
 
 @end

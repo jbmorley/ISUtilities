@@ -81,43 +81,6 @@
   return self.items.count;
 }
 
-
-- (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state
-                                  objects:(id __unsafe_unretained [])buffer
-                                    count:(NSUInteger)len
-{
-  NSUInteger count = 0;
-  // Initialization.
-  if (state->state == 0) {
-    // Ignoring mutations.
-    state->mutationsPtr = &state->extra[0];
-    // Only remove nil objects in the initialization state to avoid the
-    // risk of mutations from releases on other threads.
-    [self removeMissingObjects];
-  }
-  // Provide items in bocks matching buffer size (len).
-  if (state->state < self.items.count) {
-    // Use the provided buffer.
-    state->itemsPtr = buffer;
-    // Fill in the stack array, either until we've provided all items from the list
-    // or until we've provided as many items as the stack based buffer will hold.
-    while((state->state < self.items.count) && (count < len))
-    {
-      // Read the next set of items into the buffer.
-      ISWeakReference *item = [self.items objectAtIndex:(state->state)];
-      buffer[count] = item.object;
-      state->state++;
-      count++;
-    }
-  }
-  else {
-    // Indicate that we're done.
-    count = 0;
-  }
-  return count;
-}
-
-
 - (void)removeMissingObjects
 {
   NSMutableIndexSet *indexes = [NSMutableIndexSet indexSet];
@@ -130,5 +93,21 @@
   [self.items removeObjectsAtIndexes:indexes];
 }
 
+- (void)enumerateObjectsUsingBlock:(void (^)(id obj, NSUInteger idx, BOOL *stop))block
+{
+  NSUInteger idx = 0;
+  BOOL stop = NO;
+  for (ISWeakReference *reference in self.items) {
+    id object = reference.object;
+    if (object == nil) {
+      continue;
+    }
+    block(object, idx, &stop);
+    if (stop) {
+      break;
+    }
+    idx++;
+  }
+}
 
 @end
