@@ -140,5 +140,21 @@
   [self.items removeObjectsAtIndexes:indexes];
 }
 
+- (void)enumerateObjectsUsingBlock:(void (^)(id obj, NSUInteger idx, BOOL *stop))block
+{
+  NSUInteger idx = 0;
+  BOOL stop = NO;
+  for (ISWeakReference *reference in self.items) {
+    id object = reference.object;
+    if (object == nil) {
+      continue;
+    }
+    block(object, idx, &stop);
+    if (stop) {
+      break;
+    }
+    idx++;
+  }
+}
 
 @end
