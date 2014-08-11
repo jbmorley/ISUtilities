@@ -51,7 +51,8 @@
   NSNumber *item = @1;
   ISWeakReference *reference1 = [[ISWeakReference alloc] initWithObject:item];
   ISWeakReference *reference2 = [[ISWeakReference alloc] initWithObject:item];
-  XCTAssertTrue([reference1 isEqual:reference2], @"Check that two references containing the same object are equal.");
+  XCTAssertTrue([reference1 isEqual:reference2],
+                @"Check that two references containing the same object are equal.");
 }
 
 
@@ -60,7 +61,8 @@
   NSNumber *item = @1;
   ISWeakReference *reference1 = [[ISWeakReference alloc] initWithObject:item];
   ISWeakReference *reference2 = [[ISWeakReference alloc] initWithObject:item];
-  XCTAssertEqual([reference1 hash], [reference2 hash], @"Check that two references containing the same object have matching hashes.");
+  XCTAssertEqual([reference1 hash], [reference2 hash],
+                 @"Check that two references containing the same object have matching hashes.");
 }
 
 
@@ -68,7 +70,8 @@
 {
   NSNumber *item = @1;
   ISWeakReference *reference = [[ISWeakReference alloc] initWithObject:item];
-  XCTAssertEqualObjects(reference, item, @"Checking that an object and its corresponding weak reference are equal.");
+  XCTAssertEqualObjects(reference, item,
+                        @"Checking that an object and its corresponding weak reference are equal.");
 }
 
 
@@ -76,7 +79,8 @@
 {
   NSNumber *item = @1;
   ISWeakReference *reference = [[ISWeakReference alloc] initWithObject:item];
-  XCTAssertEqual([reference hash], [item hash], @"Checking that an object and its corresponding weak reference have matching hashes.");
+  XCTAssertEqual([reference hash], [item hash],
+                 @"Checking that an object and its corresponding weak reference have matching hashes.");
 }
 
 
@@ -87,7 +91,8 @@
     __attribute__((objc_precise_lifetime)) NSObject *item = [NSObject new];
     reference = [[ISWeakReference alloc] initWithObject:item];
   }
-  XCTAssertNil(reference.object, @"Checking that a weak reference does not retain its object and nils its reference.");
+  XCTAssertNil(reference.object,
+               @"Checking that a weak reference does not retain its object and nils its reference.");
 }
 
 
@@ -96,7 +101,8 @@
   ISWeakReferenceArray *array = [[ISWeakReferenceArray alloc] init];
   NSNumber *item = @1;
   [array addObject:item];
-  XCTAssertTrue([array count] == 1, @"Construct an array using alloc init and add an item.");
+  XCTAssertTrue([array count] == 1,
+                @"Construct an array using alloc init and add an item.");
 }
 
 
@@ -105,7 +111,8 @@
   ISWeakReferenceArray *array = [[ISWeakReferenceArray alloc] initWithCapacity:3];
   NSNumber *item = @1;
   [array addObject:item];
-  XCTAssertTrue([array count] == 1, @"Construct an array with an initial capacity and add an item.");
+  XCTAssertTrue([array count] == 1,
+                @"Construct an array with an initial capacity and add an item.");
 }
 
 
@@ -115,13 +122,26 @@
     __attribute__((objc_precise_lifetime)) NSObject *item = [NSObject new];
     [self.array addObject:item];
   }
-  XCTAssertTrue([self.array count] == 0, @"Check that an item is removed when it it is released.");
+  XCTAssertTrue([self.array count] == 0,
+                @"Check that an item is removed when it it is released.");
 }
 
 
-- (void)testFastEnumeration
+/*
+ * This test serves a number of purposes: It checks that each object returned during the fast enumeration
+ * has a retain count of at least 1 so it is not unexpected released during the enumeration. The access
+ * to the object (CFGetRetainCount) also forces a dereference of each item returned during the enumeration
+ * which catches any hanging pointers which may be created by failing to retain the objects in the
+ * fast enumeration implementation prior to returning a plain C-pointer. Finally, we check that we do not
+ * retain the objects in the for loop any longer than necessary: the iteration will not continue once the
+ * weak objects have been released.
+ *
+ * N.B. The Objective-C runtime has different characteristics on the 32-bit iOS Simulator so is not a
+ * sufficient to for this test case.
+ */
+- (void)testFastEnumerationRetains
 {
-  ISWeakReferenceArray *array = [[ISWeakReferenceArray alloc] initWithCapacity:3];
+  ISWeakReferenceArray *array = [ISWeakReferenceArray new];
   NSMutableArray *items = [NSMutableArray new];
   @autoreleasepool {
     for (int i=0; i<3; i++) {
@@ -130,6 +150,7 @@
       [array addObject:item];
     }
   }
+  
   dispatch_semaphore_t begin = dispatch_semaphore_create(0);
   dispatch_semaphore_t end = dispatch_semaphore_create(0);
   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
@@ -140,7 +161,9 @@
     
   NSUInteger count = 0;
   for (NSObject *item in array) {
-    NSLog(@"ref count: %lx", CFGetRetainCount((__bridge CFTypeRef)(item)));
+    long rc = CFGetRetainCount((__bridge CFTypeRef)(item));
+    XCTAssert(rc > 0,
+              @"Check weak items have a retain count greater than zero when accessed during fast enumeration.");
     NSLog(@"Item %lu: %@", (unsigned long)count, item);
     if (count == 0) {
       dispatch_semaphore_signal(begin);
@@ -148,6 +171,46 @@
     }
     count++;
   }
+  
+  XCTAssert(count == 1, @"Check that the fast enumeration correctly terminates once the weak objects have been released.");
+}
+
+/*
+ * As above but for block-based enumeration.
+ */
+- (void)testBlockBasedEnumerationRetains
+{
+  ISWeakReferenceArray *array = [ISWeakReferenceArray new];
+  NSMutableArray *items = [NSMutableArray new];
+  @autoreleasepool {
+    for (int i=0; i<3; i++) {
+      __attribute__((objc_precise_lifetime)) NSObject *item = [NSObject new];
+      [items addObject:item];
+      [array addObject:item];
+    }
+  }
+  
+  dispatch_semaphore_t begin = dispatch_semaphore_create(0);
+  dispatch_semaphore_t end = dispatch_semaphore_create(0);
+  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+    dispatch_semaphore_wait(begin, DISPATCH_TIME_FOREVER);
+    [items removeAllObjects];
+    dispatch_semaphore_signal(end);
+  });
+
+  __block NSUInteger count = 0;
+  [array enumerateObjectsUsingBlock:^(id item, NSUInteger idx, BOOL *stop) {
+    long rc = CFGetRetainCount((__bridge CFTypeRef)(item));
+    XCTAssert(rc > 0,
+              @"Check weak items have a retain count greater than zero when accessed during block-based enumeration.");
+    if (idx == 0) {
+      dispatch_semaphore_signal(begin);
+      dispatch_semaphore_wait(end, DISPATCH_TIME_FOREVER);
+    }
+    count++;
+  }];
+  
+  XCTAssert(count == 1, @"Check that the block-based enumeration correctly terminates once the weak objects have been released.");
 }
 
 
