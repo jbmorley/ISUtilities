@@ -92,4 +92,24 @@
 }
 
 
+- (void)testReferenceCapture
+{
+  __attribute__((objc_precise_lifetime)) NSObject *object = [NSObject new];
+  ISWeakReference *reference = [ISWeakReference referenceWithObject:object];
+  
+  XCTAssertEqual(CFGetRetainCount((__bridge CFTypeRef)(object)), 1,
+                 @"Checking that a weak reference has the expected retain count after capture.");
+  
+  [reference capture];
+  
+  XCTAssertEqual(CFGetRetainCount((__bridge CFTypeRef)(object)), 2,
+                 @"Checking that a weak reference has the expected retain count when captured.");
+
+  [reference uncapture];
+  
+  XCTAssertEqual(CFGetRetainCount((__bridge CFTypeRef)(object)), 1,
+                 @"Checking that a weak reference has the expected retain count after uncapture.");
+}
+
+
 @end
