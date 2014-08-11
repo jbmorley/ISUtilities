@@ -27,11 +27,16 @@
 #import "ISWeakReferenceArray.h"
 #import "NSDictionary+JSON.h"
 #import "NSObject+Serialize.h"
-#import "UIAlertView+Block.h"
-#import "UIApplication+Activity.h"
-#import "UIApplication+IdleTimer.h"
-#import "UIView+Utilities.h"
-#import "UINavigationController+Pops.h"
 #import "NSObject+Threads.h"
 #import "ISCancelable.h"
 #import "ISCancelToken.h"
+
+//#ifdef TARGET_OS_IPHONE
+//
+//#import "UIAlertView+Block.h"
+//#import "UIApplication+Activity.h"
+//#import "UIApplication+IdleTimer.h"
+//#import "UIView+Utilities.h"
+//#import "UINavigationController+Pops.h"
+//
+//#endif

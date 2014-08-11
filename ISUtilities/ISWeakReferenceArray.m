@@ -32,13 +32,13 @@
 @implementation ISWeakReferenceArray
 
 
-+ (id)arrayWithCapacity:(NSUInteger)numItems
++ (instancetype)arrayWithCapacity:(NSUInteger)numItems
 {
   return [[self alloc] initWithCapacity:numItems];
 }
 
 
-- (id)init
+- (instancetype)init
 {
   self = [super init];
   if (self) {
@@ -48,7 +48,7 @@
 }
 
 
-- (id)initWithCapacity:(NSUInteger)numItems
+- (instancetype)initWithCapacity:(NSUInteger)numItems
 {
   self = [super init];
   if (self) {

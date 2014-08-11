@@ -119,4 +119,36 @@
 }
 
 
+- (void)testFastEnumeration
+{
+  ISWeakReferenceArray *array = [[ISWeakReferenceArray alloc] initWithCapacity:3];
+  NSMutableArray *items = [NSMutableArray new];
+  @autoreleasepool {
+    for (int i=0; i<3; i++) {
+      __attribute__((objc_precise_lifetime)) NSObject *item = [NSObject new];
+      [items addObject:item];
+      [array addObject:item];
+    }
+  }
+  dispatch_semaphore_t begin = dispatch_semaphore_create(0);
+  dispatch_semaphore_t end = dispatch_semaphore_create(0);
+  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+    dispatch_semaphore_wait(begin, DISPATCH_TIME_FOREVER);
+    [items removeAllObjects];
+    dispatch_semaphore_signal(end);
+  });
+    
+  NSUInteger count = 0;
+  for (NSObject *item in array) {
+    NSLog(@"ref count: %lx", CFGetRetainCount((__bridge CFTypeRef)(item)));
+    NSLog(@"Item %lu: %@", (unsigned long)count, item);
+    if (count == 0) {
+      dispatch_semaphore_signal(begin);
+      dispatch_semaphore_wait(end, DISPATCH_TIME_FOREVER);
+    }
+    count++;
+  }
+}
+
+
 @end

@@ -1,0 +1,16 @@
+PODS:
+  - ISUtilities (1.1.0):
+    - ISUtilities/UIKit
+  - ISUtilities/UIKit (1.1.0)
+
+DEPENDENCIES:
+  - ISUtilities (from `../../`)
+
+EXTERNAL SOURCES:
+  ISUtilities:
+    :path: ../../
+
+SPEC CHECKSUMS:
+  ISUtilities: b8944b62be1f422426447db1429087065bd07e8d
+
+COCOAPODS: 0.33.1
