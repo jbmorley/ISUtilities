@@ -188,6 +188,8 @@
     count++;
   }
   
+  [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:2.0]];
+  
   XCTAssertEqual(count, 3,
                  @"Check that the array enumeration returns the correct count.");
   
@@ -242,12 +244,14 @@
   long retainCount3 = CFGetRetainCount((__bridge CFTypeRef)(item3));
   
   NSInteger count = 0;
-  for (NSObject *object in array) {
-    if (count == 0) {
+  for (__attribute__((unused)) NSObject *object in array) {
+    if (count == 1) {
       break;
     }
     count++;
   }
+  
+  [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:2.0]];
   
   XCTAssertEqual(CFGetRetainCount((__bridge CFTypeRef)(item1)), retainCount1,
                  @"Check that the retain count of items is unchanged following fast enumeration.");

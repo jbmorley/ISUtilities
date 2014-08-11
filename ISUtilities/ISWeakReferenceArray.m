@@ -105,12 +105,6 @@
     [self removeMissingObjects];
   }
   
-  // Uncapture the previously buffered item.
-  if (state->state > 0) {
-    ISWeakReference *item = [self.items objectAtIndex:(state->state - 1)];
-    [item uncapture];
-  }
-  
   // Provide items in bocks matching buffer size (len).
   if (state->state < self.items.count) {
     
@@ -133,7 +127,12 @@
     // it to the enumeration.
     if (object &&
         state->state <= self.items.count) {
+      // Capture the object and schedule an uncapture.
       [item capture];
+      [self performSelector:@selector(uncapture:)
+                   onThread:[NSThread currentThread]
+                 withObject:item
+              waitUntilDone:NO];
       return 1;
     } else {
       return 0;
@@ -145,6 +144,12 @@
     return 0;
     
   }
+}
+
+
+- (void)uncapture:(ISWeakReference *)item
+{
+  [item uncapture];
 }
 
 
