@@ -96,7 +96,6 @@
                                   objects:(id __unsafe_unretained [])buffer
                                     count:(NSUInteger)len
 {
-  NSUInteger count = 0;
   // Initialization.
   if (state->state == 0) {
     // Ignoring mutations.
@@ -105,26 +104,47 @@
     // risk of mutations from releases on other threads.
     [self removeMissingObjects];
   }
+  
+  // Uncapture the previously buffered item.
+  if (state->state > 0) {
+    ISWeakReference *item = [self.items objectAtIndex:(state->state - 1)];
+    [item uncapture];
+  }
+  
   // Provide items in bocks matching buffer size (len).
   if (state->state < self.items.count) {
+    
     // Use the provided buffer.
     state->itemsPtr = buffer;
-    // Fill in the stack array, either until we've provided all items from the list
-    // or until we've provided as many items as the stack based buffer will hold.
-    while((state->state < self.items.count) && (count < len))
-    {
-      // Read the next set of items into the buffer.
-      ISWeakReference *item = [self.items objectAtIndex:(state->state)];
-      buffer[count] = item.object;
+    
+    // Find the next strong reference.
+    __strong NSObject *object = nil;
+    ISWeakReference *item;
+    do {
+      item = [self.items objectAtIndex:(state->state)];
+      object = item.object;
+      buffer[0] = item.object;
       state->state++;
-      count++;
+    } while (object == nil &&
+             state->state < self.items.count);
+    
+    // Check if we've reached the end of the list and if not,
+    // and we have a valid item, then capture the item and return
+    // it to the enumeration.
+    if (object &&
+        state->state <= self.items.count) {
+      [item capture];
+      return 1;
+    } else {
+      return 0;
     }
-  }
-  else {
+    
+  } else {
+    
     // Indicate that we're done.
-    count = 0;
+    return 0;
+    
   }
-  return count;
 }
 
 

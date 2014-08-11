@@ -172,19 +172,24 @@
 - (void)testFastEnumerationReleases
 {
   ISWeakReferenceArray *array = [ISWeakReferenceArray new];
-  NSObject *item1 = [NSObject new]; [array addObject:item1];
-  NSObject *item2 = [NSObject new]; [array addObject:item2];
-  NSObject *item3 = [NSObject new]; [array addObject:item3];
+  __attribute__((objc_precise_lifetime)) NSObject *item1 = [NSObject new]; [array addObject:item1];
+  __attribute__((objc_precise_lifetime)) NSObject *item2 = [NSObject new]; [array addObject:item2];
+  __attribute__((objc_precise_lifetime)) NSObject *item3 = [NSObject new]; [array addObject:item3];
   
   long retainCount1 = CFGetRetainCount((__bridge CFTypeRef)(item1));
   long retainCount2 = CFGetRetainCount((__bridge CFTypeRef)(item2));
   long retainCount3 = CFGetRetainCount((__bridge CFTypeRef)(item3));
   
+  NSUInteger count = 0;
   for (NSObject *item in array) {
     long rc = CFGetRetainCount((__bridge CFTypeRef)(item));
     XCTAssert(rc > 0,
               @"Check weak items have a retain count greater than zero when accessed during block-based enumeration.");
+    count++;
   }
+  
+  XCTAssertEqual(count, 3,
+                 @"Check that the array enumeration returns the correct count.");
   
   XCTAssertEqual(CFGetRetainCount((__bridge CFTypeRef)(item1)), retainCount1,
                  @"Check that the retain count of items is unchanged following fast enumeration.");
@@ -202,9 +207,9 @@
 - (void)testBlockBasedEnumerationReleases
 {
   ISWeakReferenceArray *array = [ISWeakReferenceArray new];
-  NSObject *item1 = [NSObject new]; [array addObject:item1];
-  NSObject *item2 = [NSObject new]; [array addObject:item2];
-  NSObject *item3 = [NSObject new]; [array addObject:item3];
+  __attribute__((objc_precise_lifetime)) NSObject *item1 = [NSObject new]; [array addObject:item1];
+  __attribute__((objc_precise_lifetime)) NSObject *item2 = [NSObject new]; [array addObject:item2];
+  __attribute__((objc_precise_lifetime)) NSObject *item3 = [NSObject new]; [array addObject:item3];
   
   long retainCount1 = CFGetRetainCount((__bridge CFTypeRef)(item1));
   long retainCount2 = CFGetRetainCount((__bridge CFTypeRef)(item2));
@@ -216,6 +221,60 @@
               @"Check weak items have a retain count greater than zero when accessed during block-based enumeration.");
   }];
 
+  XCTAssertEqual(CFGetRetainCount((__bridge CFTypeRef)(item1)), retainCount1,
+                 @"Check that the retain count of items is unchanged following fast enumeration.");
+  XCTAssertEqual(CFGetRetainCount((__bridge CFTypeRef)(item2)), retainCount2,
+                 @"Check that the retain count of items is unchanged following fast enumeration.");
+  XCTAssertEqual(CFGetRetainCount((__bridge CFTypeRef)(item3)), retainCount3,
+                 @"Check that the retain count of items is unchanged following fast enumeration.");
+}
+
+
+- (void)testFastEnumerationBreak
+{
+  ISWeakReferenceArray *array = [ISWeakReferenceArray new];
+  __attribute__((objc_precise_lifetime)) NSObject *item1 = [NSObject new]; [array addObject:item1];
+  __attribute__((objc_precise_lifetime)) NSObject *item2 = [NSObject new]; [array addObject:item2];
+  __attribute__((objc_precise_lifetime)) NSObject *item3 = [NSObject new]; [array addObject:item3];
+  
+  long retainCount1 = CFGetRetainCount((__bridge CFTypeRef)(item1));
+  long retainCount2 = CFGetRetainCount((__bridge CFTypeRef)(item2));
+  long retainCount3 = CFGetRetainCount((__bridge CFTypeRef)(item3));
+  
+  NSInteger count = 0;
+  for (NSObject *object in array) {
+    if (count == 0) {
+      break;
+    }
+    count++;
+  }
+  
+  XCTAssertEqual(CFGetRetainCount((__bridge CFTypeRef)(item1)), retainCount1,
+                 @"Check that the retain count of items is unchanged following fast enumeration.");
+  XCTAssertEqual(CFGetRetainCount((__bridge CFTypeRef)(item2)), retainCount2,
+                 @"Check that the retain count of items is unchanged following fast enumeration.");
+  XCTAssertEqual(CFGetRetainCount((__bridge CFTypeRef)(item3)), retainCount3,
+                 @"Check that the retain count of items is unchanged following fast enumeration.");
+}
+
+
+- (void)testBlockBasedEnumerationBreak
+{
+  ISWeakReferenceArray *array = [ISWeakReferenceArray new];
+  __attribute__((objc_precise_lifetime)) NSObject *item1 = [NSObject new]; [array addObject:item1];
+  __attribute__((objc_precise_lifetime)) NSObject *item2 = [NSObject new]; [array addObject:item2];
+  __attribute__((objc_precise_lifetime)) NSObject *item3 = [NSObject new]; [array addObject:item3];
+  
+  long retainCount1 = CFGetRetainCount((__bridge CFTypeRef)(item1));
+  long retainCount2 = CFGetRetainCount((__bridge CFTypeRef)(item2));
+  long retainCount3 = CFGetRetainCount((__bridge CFTypeRef)(item3));
+  
+  [array enumerateObjectsUsingBlock:^(id item, NSUInteger idx, BOOL *stop) {
+    if (idx == 1) {
+      *stop = YES;
+    }
+  }];
+  
   XCTAssertEqual(CFGetRetainCount((__bridge CFTypeRef)(item1)), retainCount1,
                  @"Check that the retain count of items is unchanged following fast enumeration.");
   XCTAssertEqual(CFGetRetainCount((__bridge CFTypeRef)(item2)), retainCount2,
