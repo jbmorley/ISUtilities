@@ -29,4 +29,14 @@
 + (ISWeakReference *)referenceWithObject:(id)object;
 - (id)initWithObject:(id)object;
 
+/**
+ * Take a strong reference to the object.
+ */
+- (void)capture;
+
+/*
+ * Release the strong reference to the object.
+ */
+- (void)uncapture;
+
 @end

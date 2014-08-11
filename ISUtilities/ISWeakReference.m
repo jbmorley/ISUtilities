@@ -22,6 +22,12 @@
 
 #import "ISWeakReference.h"
 
+@interface ISWeakReference ()
+
+@property (nonatomic, strong) NSObject *strongObject;
+
+@end
+
 @implementation ISWeakReference
 
 
@@ -57,6 +63,18 @@
 - (NSUInteger)hash
 {
   return [self.object hash];
+}
+
+
+- (void)capture
+{
+  self.strongObject = self.object;
+}
+
+
+- (void)uncapture
+{
+  self.strongObject = nil;
 }
 
 

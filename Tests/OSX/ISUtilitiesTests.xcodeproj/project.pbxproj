@@ -8,17 +8,17 @@
 
 /* Begin PBXBuildFile section */
 		965551558FB84B2598E313F1 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 167FEE70EA05448DA524C5DF /* libPods.a */; };
+		D87A284E1998A451000F822C /* ISWeakReferenceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D87A284D1998A451000F822C /* ISWeakReferenceTests.m */; };
 		D8B5F49F1998864200D8F2D0 /* ISWeakReferenceArrayTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B5F49E1998864200D8F2D0 /* ISWeakReferenceArrayTests.m */; };
-		D8D78B90199884330031A156 /* ISUtilitiesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D8D78B8F199884330031A156 /* ISUtilitiesTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		07A7EA4B801147AAAAB4B02A /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		167FEE70EA05448DA524C5DF /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		D87A284D1998A451000F822C /* ISWeakReferenceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ISWeakReferenceTests.m; path = ../../Classes/ISWeakReferenceTests.m; sourceTree = "<group>"; };
 		D8B5F49E1998864200D8F2D0 /* ISWeakReferenceArrayTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ISWeakReferenceArrayTests.m; path = ../../Classes/ISWeakReferenceArrayTests.m; sourceTree = "<group>"; };
 		D8D78B8A199884330031A156 /* ISUtilitiesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ISUtilitiesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8D78B8E199884330031A156 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D8D78B8F199884330031A156 /* ISUtilitiesTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISUtilitiesTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,7 +63,7 @@
 			isa = PBXGroup;
 			children = (
 				D8B5F49E1998864200D8F2D0 /* ISWeakReferenceArrayTests.m */,
-				D8D78B8F199884330031A156 /* ISUtilitiesTests.m */,
+				D87A284D1998A451000F822C /* ISWeakReferenceTests.m */,
 				D8D78B8D199884330031A156 /* Supporting Files */,
 			);
 			path = ISUtilitiesTests;
@@ -177,7 +177,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D8D78B90199884330031A156 /* ISUtilitiesTests.m in Sources */,
+				D87A284E1998A451000F822C /* ISWeakReferenceTests.m in Sources */,
 				D8B5F49F1998864200D8F2D0 /* ISWeakReferenceArrayTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
