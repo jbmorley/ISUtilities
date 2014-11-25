@@ -30,3 +30,29 @@
 #import "NSObject+Threads.h"
 #import "ISCancelable.h"
 #import "ISCancelToken.h"
+
+void ISAssert(BOOL condition, NSString *desc, ...);
+
+void ISAssertUnreached(NSString *message, ...);
+
+/**
+ * Create a dispatch queue with a custom identifier including domain, class name, class instance and instance name.
+ *
+ * Example usage:
+ * ```
+ * dispatch_queue_t completionQueue = ISDispatchQueueCreate(@"uk.co.inseven",
+ *                                                          self,
+ *                                                          @"completionQueue",
+ *                                                          DISPATCH_QUEUE_CONCURRENT);
+ * ```
+ *
+ * @param domain Reverse-DNS domain.
+ * @param instance Class instance of which the queue is a member.
+ * @param name Instance name (e.g. the queue member variable name).
+ * @param attr Dispatch queue attributes (see `dispatch_queue_create`).
+ *
+ * @return The newly created dispatch queue.
+ */
+dispatch_queue_t ISDispatchQueueCreate(NSString *domain, id instance, NSString *name, dispatch_queue_attr_t attr);
+
+void ISSafeSetDictionaryKey(NSMutableDictionary *dictionary, id key, id value);
