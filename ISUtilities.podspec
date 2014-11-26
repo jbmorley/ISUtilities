@@ -1,12 +1,12 @@
 Pod::Spec.new do |s|
 
   s.name         = "ISUtilities"
-  s.version      = "1.1.0"
+  s.version      = "1.1.1"
   s.summary      = "Objective-C utility classes"
   s.homepage     = "https://github.com/jbmorley/ISUtilities"
   s.license      = { :type => 'MIT', :file => 'LICENSE' }
   s.author       = { "Jason Barrie Morley" => "jason.morley@inseven.co.uk" }
-  s.source       = { :git => "https://github.com/jbmorley/ISUtilities.git", :tag => "1.1.0" }
+  s.source       = { :git => "https://github.com/jbmorley/ISUtilities.git", :tag => "1.1.1" }
 
   s.ios.deployment_target = '6.0'
   s.osx.deployment_target = '10.9'
