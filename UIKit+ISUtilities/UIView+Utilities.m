@@ -22,7 +22,7 @@
 
 #import "UIView+Utilities.h"
 
-@implementation UIView (Parent)
+@implementation UIView (Utilities)
 
 
 - (BOOL)containsCurrentFirstResponder

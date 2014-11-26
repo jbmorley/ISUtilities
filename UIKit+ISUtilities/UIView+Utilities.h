@@ -22,7 +22,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UIView (Parent)
+@interface UIView (Utilities)
 
 /**
  * Determines the current UIView or any of its subviews i the current first responder.
