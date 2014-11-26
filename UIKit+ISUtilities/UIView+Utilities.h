@@ -24,8 +24,27 @@
 
 @interface UIView (Parent)
 
+/**
+ * Determines the current UIView or any of its subviews i the current first responder.
+ *
+ * @return YES if the UIView or any of its subviews is the current first responder. NO otherwise.
+ */
 - (BOOL)containsCurrentFirstResponder;
+
+/**
+ * Resigns the first responder for the  UIView and any of its subviews.
+ *
+ * @param YES if a first responder was found and successfully resigned. NO otherwise.
+ */
 - (BOOL)resignCurrentFirstResponder;
-- (BOOL)hasSuperviewOfKindOfClass:(Class)aClass;
+
+/**
+ * Determines if the current UIView contains any subviews of a given class.
+ *
+ * @param class The class to check for.
+ *
+ * @return YES if there is one-or-more subviews of Class `class`. NO otherwise.
+ */
+- (BOOL)hasSuperviewOfKindOfClass:(Class)class;
 
 @end
