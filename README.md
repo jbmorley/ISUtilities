@@ -171,7 +171,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(
 Changelog
 ---------
 
-Version 1.1.0
+### Version 1.1.0
 
 - Adding appledoc.
 - Adding unit tests.
@@ -180,11 +180,11 @@ Version 1.1.0
 - Adding support for OS X targets.
 - FIX: Fixing thread safety issues in `ISWeakReferenceArray` when references are freed on during enumeration.
 
-Version 1.0.1
+### Version 1.0.1
 
 - FIX: Support for `nil` blocks in UIAlertView+Block.
 
-Version 1.0.0
+### Version 1.0.0
 
 - Initial release.
 
