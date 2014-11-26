@@ -17,7 +17,7 @@ ISUtilities is available through [CocoaPods](http://cocoapods.org/):
 
 ```
 platform: ios, '6.0'
-pod "ISUtilities", "~> 1.0"
+pod "ISUtilities", "~> 1.1"
 ```
 
 Classes
