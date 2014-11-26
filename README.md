@@ -103,7 +103,7 @@ This can prove userful if it is necessary to ensure that an NSDictionary or NSAr
 Initialize a UIAlertView with a completion block to avoid the need to conform to the `UIAlertViewDelegate` protocol and implementing `alertView:clickedButtonAtIndex:`:
 
 ```objc
-#import <ISUtilities/ISUtilities.h>
+#import <ISUtilities/UIKit+ISUtilities.h>
 
 // Create the UIAlertView.
 UIAlertView *alertView =
@@ -131,7 +131,7 @@ UIAlertView *alertView =
 Thread-safe category for managing the UIApplication network activity indicator by simply counting calls to `beginNetworkActivity` and `endNetworkActivity`:
 
 ```objc
-#import <ISUtilities/ISUtilities.h>
+#import <ISUtilities/UIKit+ISUtilities.h>
 
 // Long-running task.
 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
@@ -161,7 +161,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(
 Thread-safe category for managing the UIApplication idle timer by simply counting calls to `disableIdleTimer` and `enableIdleTimer`:
 
 ```objc
-#import <ISUtilities/ISUtilities.h>
+#import <ISUtilities/UIKit+ISUtilities.h>
 
 // Disable the idle timer.
 [[UIApplication sharedApplication] disableIdleTimer];
