@@ -184,6 +184,10 @@ Tests can be run with the following command (from the root of the repository):
 Changelog
 ---------
 
+Version 1.1.0
+
+- TODO
+
 Version 1.0.1
 
 - FIX: Support for `nil` blocks in UIAlertView+Block.
