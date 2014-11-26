@@ -186,7 +186,7 @@ Changelog
 
 Version 1.0.1
 
-- FIX: Support for NULL blocks in UIAlertView+Block.
+- FIX: Support for `nil` blocks in UIAlertView+Block.
 
 Version 1.0.0
 
