@@ -156,22 +156,6 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(
 });
 ```
 
-### UIApplication+IdleTimer
-
-Thread-safe category for managing the UIApplication idle timer by simply counting calls to `disableIdleTimer` and `enableIdleTimer`:
-
-```objc
-#import <ISUtilities/UIKit+ISUtilities.h>
-
-// Disable the idle timer.
-[[UIApplication sharedApplication] disableIdleTimer];
-
-// Play a video, etc...
-
-// Re-enable the idle timer.
-[[UIApplication sharedApplication] enableIdleTimer];
-```
-
 Tests
 -----
 
