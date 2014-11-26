@@ -58,6 +58,8 @@
 
 - (void)notify:(SEL)selector
 {
+    NSParameterAssert(selector);
+    
     [self.observers enumerateObjectsUsingBlock:^(id object, __unused NSUInteger idx, __unused BOOL *stop) {
         if ([object respondsToSelector:selector]) {
 #pragma clang diagnostic push
@@ -71,6 +73,8 @@
 - (void)notify:(SEL)selector
     withObject:(id)anObject
 {
+    NSParameterAssert(selector);
+    
     [self.observers enumerateObjectsUsingBlock:^(id object, __unused NSUInteger idx, __unused BOOL *stop) {
         if ([object respondsToSelector:selector]) {
 #pragma clang diagnostic push
@@ -86,6 +90,8 @@
     withObject:(id)anObject
     withObject:(id)anotherObject
 {
+    NSParameterAssert(selector);
+    
     [self.observers enumerateObjectsUsingBlock:^(id object, __unused NSUInteger idx, __unused BOOL *stop) {
         if ([object respondsToSelector:selector]) {
 #pragma clang diagnostic push
@@ -103,6 +109,8 @@
     withObject:(id)anotherObject
     withObject:(id)yetAnotherObject
 {
+    NSParameterAssert(selector);
+    
     __strong id *anObjectP = &anObject;
     __strong id *anotherObjectP = &anotherObject;
     __strong id *yetAnotherObjectP = &yetAnotherObject;

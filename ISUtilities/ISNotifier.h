@@ -74,15 +74,54 @@
  */
 - (void)removeObserver:(id)observer;
 
+/**
+ * Notifies all observers by performing a selector on each observer in turn.
+ * 
+ * The selector is performed on the same thread as the call to `notify:`.
+ *
+ * Selector return values are ignored.
+ * 
+ * @param selector A selector identifying the message to send.
+ */
 - (void)notify:(SEL)selector;
-- (void)notify:(SEL)selector
-    withObject:(id)anObject;
-- (void)notify:(SEL)selector
-    withObject:(id)anObject
-    withObject:(id)anotherObject;
-- (void)notify:(SEL)selector
-    withObject:(id)anObject
-    withObject:(id)anotherObject
-    withObject:(id)yetAnotherObject;
+
+/**
+ * Notifies all observers by performing a selector on each observer in turn with an object as the argument.
+ *
+ * The selector is performed on the same thread as the call to `notify:withObject:`.
+ *
+ * Selector return values are ignored.
+ *
+ * @param selector A selector identifying the message to send.
+ * @param anObject An object that is the sole argument of the message.
+ */
+- (void)notify:(SEL)selector withObject:(id)anObject;
+
+/**
+ * Notifies all observers by performing a selector on each observer in turn with two objects as the arguments.
+ *
+ * The selector is performed on the same thread as the call to `notify:withObject:withObject:`.
+ *
+ * Selector return values are ignored.
+ *
+ * @param selector A selector identifying the message to send.
+ * @param anObject An object that is the first argument of the message.
+ * @param anotherObject An object that is the second argument of the message.
+ */
+- (void)notify:(SEL)selector withObject:(id)anObject withObject:(id)anotherObject;
+
+/**
+ * Notifies all observers by performing a selector on each observer in turn with three objects as the arguments.
+ *
+ * The selector is performed on the same thread as the call to `notify:withObject:withObject:withObject:`.
+ *
+ * Selector return values are ignored.
+ *
+ * @param selector A selector identifying the message to send.
+ * @param anObject An object that is the first argument of the message.
+ * @param anotherObject An object that is the second argument of the message.
+ * @param yetAnotherObject An object that is the third argument of the message.
+ */
+- (void)notify:(SEL)selector withObject:(id)anObject withObject:(id)anotherObject withObject:(id)yetAnotherObject;
 
 @end
