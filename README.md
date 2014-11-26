@@ -70,33 +70,6 @@ BOOL checkInvalid = [invalid canWriteToFile]; // NO
 This can prove userful if it is necessary to ensure that an NSDictionary or NSArray and its contents can be safely stored to file. It works by validating that every object is an instance of `NSData`, `NSDate`, `NSNumber`, `NSString`, `NSArray`, or `NSDictionary` (as described in the documentation for `NSArray`  and `NSDictionary`).
 
 
-### UIAlertView+Block
-
-Initialize a UIAlertView with a completion block to avoid the need to conform to the `UIAlertViewDelegate` protocol and implementing `alertView:clickedButtonAtIndex:`:
-
-```objc
-#import <ISUtilities/UIKit+ISUtilities.h>
-
-// Create the UIAlertView.
-UIAlertView *alertView =
-[[UIAlertView alloc] initWithTitle:@"Alert"
-                         message:@"Click a button..."
-                 completionBlock:^(NSUInteger buttonIndex) {
-                                   if (buttonIndex == 0) {
-                                     // Cancel...
-                                   } else if (buttonIndex == 1) {
-                                     // One...
-                                   } else if (buttonIndex == 2) {
-                                     // Two...
-                                   }
-                                 }
-               cancelButtonTitle:@"Cancel"
-               otherButtonTitles:@"One", @"Two", nil];
-
-// Show the alert view.
-[alertView show];
-```
-
 Changelog
 ---------
 
