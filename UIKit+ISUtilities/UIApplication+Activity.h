@@ -22,6 +22,36 @@
 
 #import <UIKit/UIKit.h>
 
+/**
+ * Thread-safe category for managing the UIApplication network activity indicator by simply counting calls to
+ * `beginNetworkActivity` and `endNetworkActivity`:
+ *
+ * ```
+ * #import <ISUtilities/UIKit+ISUtilities.h>
+ *
+ * // Long-running task.
+ * dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
+ *     // Begin network activity.
+ *     [[UIApplication sharedApplication] beginNetworkActivity];
+ *
+ *     // Do some work...
+ *
+ *     // End network activity.
+ *     [[UIApplication sharedApplication] endNetworkActivity];
+ * });
+ *
+ * // Another long-running task.
+ * dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
+ *     // Begin network activity.
+ *     [[UIApplication sharedApplication] beginNetworkActivity];
+ *
+ *     // Do other work...
+ *
+ *     // End network activity.
+ *     [[UIApplication sharedApplication] endNetworkActivity];
+ * });
+ * ```
+ */
 @interface UIApplication (Activity)
 
 - (void)beginNetworkActivity;
