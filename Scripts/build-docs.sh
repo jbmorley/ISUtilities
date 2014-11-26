@@ -1,7 +1,14 @@
 #!/bin/bash
 
 appledoc \
-    --project-name ISUtilities \
     --project-company "InSeven Limited" \
-    ISUtilities \
-    UIKit+ISUtilities
+    --company-id "uk.co.inseven" \
+    --project-name ISUtilities \
+    --project-version "1.1.0" \
+    --output Documentation \
+    --create-html \
+    --create-docset \
+    --keep-undocumented-objects \
+    --keep-undocumented-members \
+    ISUtilities/*.h \
+    UIKit+ISUtilities/*.h
