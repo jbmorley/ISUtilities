@@ -88,12 +88,15 @@
                                   objects:(id __unsafe_unretained [])buffer
                                     count:(NSUInteger)len
 {
+    NSParameterAssert(state);
+    NSParameterAssert(buffer);
+    
     // Initialization.
     if (state->state == 0) {
         // Ignoring mutations.
         state->mutationsPtr = &state->extra[0];
-        // Only remove nil objects in the initialization state to avoid the
-        // risk of mutations from releases on other threads.
+        // Only remove nil objects in the initialization state to avoid the risk of mutations from releases on other
+        // threads.
         [self removeMissingObjects];
     }
     
@@ -114,12 +117,13 @@
         } while (object == nil &&
                  state->state < self.items.count);
         
-        // Check if we've reached the end of the list and if not,
-        // and we have a valid item, then capture the item and return
-        // it to the enumeration.
+        // Check if we've reached the end of the list and if not, and we have a valid item, then capture the item and
+        // return it to the enumeration.
         if (object &&
             state->state <= self.items.count) {
             // Capture the object and schedule an uncapture.
+            // The performSelector:onThread:withObject:waitUntilDone: call is guaranteed to be performed asynchronously
+            // on the current thread once the iteration has completed.
             [item capture];
             [self performSelector:@selector(uncapture:)
                          onThread:[NSThread currentThread]
