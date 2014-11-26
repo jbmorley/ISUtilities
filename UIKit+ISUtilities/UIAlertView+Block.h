@@ -24,10 +24,29 @@ typedef void (^ISAlertViewBlock)(NSUInteger buttonIndex);
 
 @interface UIAlertView (Block) <UIAlertViewDelegate>
 
-- (id)initWithTitle:(NSString *)title
-            message:(NSString *)message
-    completionBlock:(void (^)(NSUInteger buttonIndex))block
-  cancelButtonTitle:(NSString *)cancelButtonTitle
-  otherButtonTitles:(NSString *)otherButtonTitles, ...;
+/**
+ * Initialize a UIAlertView with a completion block to avoid the need to conform to the `UIAlertViewDelegate` protocol
+ * and implementing `alertView:clickedButtonAtIndex:`.
+ *
+ * The completion block is always called on the main thread.
+ * 
+ * @param title The string that appears in the receiver’s title bar.
+ * @param message Descriptive text that provides more details than the title.
+ * @param block The completion block to be called when the `UIAlertView` is dismissed with a button tap.
+ * @param cancelButtonTitle The title of the cancel button or nil if there is no cancel button. Using this argument is
+ * equivalent to setting the cancel button index to the value returned by invoking `addButtonWithTitle:` specifying this
+ * title.
+ * @param otherButtonTitles The title of another button. Using this argument is equivalent to invoking
+ * `addButtonWithTitle:` with this title to add more buttons. Too many buttons can cause the alert view to scroll. For
+ * guidelines on the best ways to use an alert in an app, see Temporary Views.
+ * @param ... Titles of additional buttons to add to the receiver, terminated with `nil`.
+ *
+ * @return Newly initialized alert view.
+ */
+- (instancetype)initWithTitle:(NSString *)title
+                      message:(NSString *)message
+              completionBlock:(void (^)(NSUInteger buttonIndex))block
+            cancelButtonTitle:(NSString *)cancelButtonTitle
+            otherButtonTitles:(NSString *)otherButtonTitles, ...;
 
 @end
