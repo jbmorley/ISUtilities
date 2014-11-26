@@ -32,58 +32,53 @@ const char *kBlockCallback = "blockCallback";
     completionBlock:(void (^)(NSUInteger buttonIndex))block
   cancelButtonTitle:(NSString *)cancelButtonTitle
   otherButtonTitles:(NSString *)otherButtonTitles, ... {
-
-  self.blockCallback = block;
-	if (self = [self initWithTitle:title
-                         message:message
-                        delegate:self
-               cancelButtonTitle:nil
-               otherButtonTitles:nil]) {
     
-		if (cancelButtonTitle) {
-			[self addButtonWithTitle:cancelButtonTitle];
-			self.cancelButtonIndex = [self numberOfButtons] - 1;
-		}
-    
-		id eachObject;
-		va_list argumentList;
-		if (otherButtonTitles) {
-			[self addButtonWithTitle:otherButtonTitles];
-			va_start(argumentList, otherButtonTitles);
-			while ((eachObject = va_arg(argumentList, id))) {
-				[self addButtonWithTitle:eachObject];
-			}
-			va_end(argumentList);
-		}
-	}
-	return self;
+    self.blockCallback = block;
+    if (self = [self initWithTitle:title
+                           message:message
+                          delegate:self
+                 cancelButtonTitle:nil
+                 otherButtonTitles:nil]) {
+        
+        if (cancelButtonTitle) {
+            [self addButtonWithTitle:cancelButtonTitle];
+            self.cancelButtonIndex = [self numberOfButtons] - 1;
+        }
+        
+        id eachObject;
+        va_list argumentList;
+        if (otherButtonTitles) {
+            [self addButtonWithTitle:otherButtonTitles];
+            va_start(argumentList, otherButtonTitles);
+            while ((eachObject = va_arg(argumentList, id))) {
+                [self addButtonWithTitle:eachObject];
+            }
+            va_end(argumentList);
+        }
+    }
+    return self;
 }
-
 
 - (void)alertView:(UIAlertView *)alertView
 clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-  if (self.blockCallback) {
-    self.blockCallback(buttonIndex);
-    self.blockCallback = nil;
-  }
+    if (self.blockCallback) {
+        self.blockCallback(buttonIndex);
+        self.blockCallback = nil;
+    }
 }
-
 
 - (ISAlertViewBlock)blockCallback
 {
-  return objc_getAssociatedObject(self, kBlockCallback);
+    return objc_getAssociatedObject(self, kBlockCallback);
 }
-
 
 - (void)setBlockCallback:(ISAlertViewBlock)blockCallback
 {
-  objc_setAssociatedObject(self,
-                           kBlockCallback,
-                           (__bridge id)Block_copy((__bridge void *)blockCallback),
-                           OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(self,
+                             kBlockCallback,
+                             (__bridge id)Block_copy((__bridge void *)blockCallback),
+                             OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
-
-
 
 @end

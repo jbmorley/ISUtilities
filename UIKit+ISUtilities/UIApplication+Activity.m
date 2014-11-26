@@ -30,42 +30,39 @@ static char *const kNetworkActivityCount = "is_networkActivityCount";
 
 - (void)beginNetworkActivity
 {
-  @synchronized(self) {
-    self.networkActivityCount++;
-    self.networkActivityIndicatorVisible = YES;
-  }
+    @synchronized(self) {
+        self.networkActivityCount++;
+        self.networkActivityIndicatorVisible = YES;
+    }
 }
-
 
 - (void)endNetworkActivity
 {
-  @synchronized(self) {
-    self.networkActivityCount--;
-    if (self.networkActivityCount <= 0) {
-      self.networkActivityIndicatorVisible = NO;
+    @synchronized(self) {
+        self.networkActivityCount--;
+        if (self.networkActivityCount <= 0) {
+            self.networkActivityIndicatorVisible = NO;
+        }
     }
-  }
 }
-
 
 - (NSInteger)networkActivityCount
 {
-  NSNumber *networkActivityCount =
-  objc_getAssociatedObject(self, kNetworkActivityCount);
-  if (networkActivityCount) {
-    return [networkActivityCount integerValue];
-  } else {
-    return 0;
-  }
+    NSNumber *networkActivityCount =
+    objc_getAssociatedObject(self, kNetworkActivityCount);
+    if (networkActivityCount) {
+        return [networkActivityCount integerValue];
+    } else {
+        return 0;
+    }
 }
-
 
 - (void)setNetworkActivityCount:(NSInteger)networkActivityCount
 {
-  objc_setAssociatedObject(self,
-                           kNetworkActivityCount,
-                           @(networkActivityCount),
-                           OBJC_ASSOCIATION_RETAIN);
+    objc_setAssociatedObject(self,
+                             kNetworkActivityCount,
+                             @(networkActivityCount),
+                             OBJC_ASSOCIATION_RETAIN);
 }
 
 @end

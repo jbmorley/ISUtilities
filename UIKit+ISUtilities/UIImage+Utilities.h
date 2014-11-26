@@ -23,8 +23,8 @@
 #import <Foundation/Foundation.h>
 
 typedef enum {
-  ISImageScaleAspectFit,
-  ISImageScaleAspectFill,
+    ISImageScaleAspectFit,
+    ISImageScaleAspectFill,
 } ISImageScale;
 
 typedef void (^UIImageUtilitiesCompletionBlock)(NSUInteger identifier, UIImage *image);

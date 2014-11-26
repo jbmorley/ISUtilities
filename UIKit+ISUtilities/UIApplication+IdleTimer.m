@@ -27,45 +27,41 @@ static char *const kIdleTimerCount = "is_idleTimerCount";
 
 @implementation UIApplication (IdleTimer)
 
-
 - (void)disableIdleTimer
 {
-  @synchronized(self) {
-    self.idleTimerCount++;
-    self.idleTimerDisabled = YES;
-  }
+    @synchronized(self) {
+        self.idleTimerCount++;
+        self.idleTimerDisabled = YES;
+    }
 }
-
 
 - (void)enableIdleTimer
 {
-  @synchronized(self) {
-    self.idleTimerCount--;
-    if (self.idleTimerCount <= 0) {
-      self.idleTimerDisabled = NO;
+    @synchronized(self) {
+        self.idleTimerCount--;
+        if (self.idleTimerCount <= 0) {
+            self.idleTimerDisabled = NO;
+        }
     }
-  }
 }
-
 
 - (NSInteger)idleTimerCount
 {
-  NSNumber *networkActivityCount =
-  objc_getAssociatedObject(self, kIdleTimerCount);
-  if (networkActivityCount) {
-    return [networkActivityCount integerValue];
-  } else {
-    return 0;
-  }
+    NSNumber *networkActivityCount =
+    objc_getAssociatedObject(self, kIdleTimerCount);
+    if (networkActivityCount) {
+        return [networkActivityCount integerValue];
+    } else {
+        return 0;
+    }
 }
-
 
 - (void)setIdleTimerCount:(NSInteger)idleTimerCount
 {
-  objc_setAssociatedObject(self,
-                           kIdleTimerCount,
-                           @(idleTimerCount),
-                           OBJC_ASSOCIATION_RETAIN);
+    objc_setAssociatedObject(self,
+                             kIdleTimerCount,
+                             @(idleTimerCount),
+                             OBJC_ASSOCIATION_RETAIN);
 }
 
 @end
