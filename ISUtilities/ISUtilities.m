@@ -22,6 +22,7 @@
 
 #import "ISUtilities.h"
 
+__attribute__ ((format (__NSString__, 2, 3)))
 void ISAssert(BOOL condition, NSString *desc, ...)
 {
     if (!condition) {
@@ -33,6 +34,7 @@ void ISAssert(BOOL condition, NSString *desc, ...)
     }
 }
 
+__attribute__ ((format (__NSString__, 1, 2)))
 void ISAssertUnreached(NSString *message, ...)
 {
     va_list args;
