@@ -6,8 +6,8 @@ appledoc \
     --project-name ISUtilities \
     --project-version "1.1.0" \
     --output Documentation \
-    --create-html \
     --create-docset \
+    --index-desc README.md \
     --keep-undocumented-objects \
     --keep-undocumented-members \
     ISUtilities/*.h \
