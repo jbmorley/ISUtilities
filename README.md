@@ -99,17 +99,11 @@ Category for checking whether an NSObject can be serialized using the `writeToFi
 #import <ISUtilities/ISUtilities.h>
 
 // Dictionary containing safe objects.
-NSDictionary *valid =
-@{@"items":
-  @[@"one",
-    @"two",
-    @"three"]};
+NSDictionary *valid = @{@"items": @[@"one", @"two", @"three"]};
 BOOL checkValid = [valid canWriteToFile]; // YES
 
 // Dictionary containing unsafe objects.
-NSArry *invalid =
-@[[YourCustomClass new],
-  [YourCustomClass new]];
+NSArry *invalid = @[[YourCustomClass new], [YourCustomClass new]];
 BOOL checkInvalid = [invalid canWriteToFile]; // NO
 ```
 
