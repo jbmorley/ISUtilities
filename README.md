@@ -173,7 +173,8 @@ Changelog
 
 Version 1.1.0
 
-- Adding some appledoc.
+- Adding appledoc.
+- Adding unit tests.
 
 Version 1.0.1
 
