@@ -201,6 +201,15 @@ Resigns the first responder for the  UIView and any of its subviews. Returns `YE
 
 Walks the UIView's superviews and returns `YES` if any are of kind of class `aClass`, `NO` otherwise.
 
+Tests
+-----
+
+Tests can be run with the following command (from the root of the repository):
+
+```
+./Scripts/run-tests.sh
+```
+
 Changelog
 ---------
 
