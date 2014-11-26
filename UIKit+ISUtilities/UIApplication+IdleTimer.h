@@ -22,9 +22,29 @@
 
 #import <UIKit/UIKit.h>
 
+/**
+ * Thread-safe category for managing the UIApplication idle timer.
+ */
 @interface UIApplication (IdleTimer)
 
+/**
+ * Disable the idle timer.
+ * 
+ * Internally this keeps a count of the number of calls to `disableIdleTimer` and `enableIdleTimer` and disables
+ * the application idle timer when there is one-or-more active request.
+ * 
+ * Thread-safe.
+ */
 - (void)disableIdleTimer;
+
+/**
+ * Enable the idle timer.
+ *
+ * Internally this keeps a count of the number of calls to `disableIdleTimer` and `enableIdleTimer` and only re-enables
+ * the application idle timer when there are no active requests.
+ * 
+ * Thread-safe.
+ */
 - (void)enableIdleTimer;
 
 @end

@@ -31,7 +31,9 @@ static char *const kIdleTimerCount = "is_idleTimerCount";
 {
     @synchronized(self) {
         self.idleTimerCount++;
-        self.idleTimerDisabled = YES;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.idleTimerDisabled = YES;
+        });
     }
 }
 
@@ -40,28 +42,30 @@ static char *const kIdleTimerCount = "is_idleTimerCount";
     @synchronized(self) {
         self.idleTimerCount--;
         if (self.idleTimerCount <= 0) {
-            self.idleTimerDisabled = NO;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.idleTimerDisabled = NO;
+            });
         }
     }
 }
 
 - (NSInteger)idleTimerCount
 {
-    NSNumber *networkActivityCount =
-    objc_getAssociatedObject(self, kIdleTimerCount);
-    if (networkActivityCount) {
-        return [networkActivityCount integerValue];
-    } else {
-        return 0;
+    @synchronized(self) {
+        NSNumber *networkActivityCount = objc_getAssociatedObject(self, kIdleTimerCount);
+        if (networkActivityCount) {
+            return [networkActivityCount integerValue];
+        } else {
+            return 0;
+        }
     }
 }
 
 - (void)setIdleTimerCount:(NSInteger)idleTimerCount
 {
-    objc_setAssociatedObject(self,
-                             kIdleTimerCount,
-                             @(idleTimerCount),
-                             OBJC_ASSOCIATION_RETAIN);
+    @synchronized(self) {
+        objc_setAssociatedObject(self, kIdleTimerCount, @(idleTimerCount), OBJC_ASSOCIATION_RETAIN);
+    }
 }
 
 @end
