@@ -20,6 +20,15 @@ platform: ios, '6.0'
 pod "ISUtilities", "~> 1.1"
 ```
 
+Documentation
+-------------
+
+Documentation is available through appledoc. This can be generating by running the following command from the root of the project:
+
+```
+./Scripts/build-docs.sh
+```
+
 Classes
 -------
 
