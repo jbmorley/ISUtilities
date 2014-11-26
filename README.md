@@ -175,6 +175,10 @@ Version 1.1.0
 
 - Adding appledoc.
 - Adding unit tests.
+- Changing the internal directory structure to make it easier to include without CocoaPods.
+- Separating UIKit and CoreFoundation libraries into separate headers.
+- Adding support for OS X targets.
+- FIX: Fixing thread safety issues in `ISWeakReferenceArray` when references are freed on during enumeration.
 
 Version 1.0.1
 
