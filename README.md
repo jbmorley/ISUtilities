@@ -173,7 +173,7 @@ Changelog
 
 Version 1.1.0
 
-- TODO
+- Adding some appledoc.
 
 Version 1.0.1
 
