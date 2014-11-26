@@ -34,7 +34,7 @@
 /**
  * Resigns the first responder for the  UIView and any of its subviews.
  *
- * @param YES if a first responder was found and successfully resigned. NO otherwise.
+ * @return YES if a first responder was found and successfully resigned. NO otherwise.
  */
 - (BOOL)resignCurrentFirstResponder;
 
