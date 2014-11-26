@@ -20,8 +20,9 @@
 // SOFTWARE.
 //
 
-typedef void (^ISAlertViewBlock)(NSUInteger buttonIndex);
-
+/**
+ * Convenience category for using blocks with `UIAlertView`.
+ */
 @interface UIAlertView (Block) <UIAlertViewDelegate>
 
 /**

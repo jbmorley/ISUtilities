@@ -68,12 +68,12 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
     }
 }
 
-- (ISAlertViewBlock)blockCallback
+- (void (^)(NSUInteger))blockCallback
 {
     return objc_getAssociatedObject(self, kBlockCallback);
 }
 
-- (void)setBlockCallback:(ISAlertViewBlock)blockCallback
+- (void)setBlockCallback:(void (^)(NSUInteger))blockCallback
 {
     objc_setAssociatedObject(self,
                              kBlockCallback,
