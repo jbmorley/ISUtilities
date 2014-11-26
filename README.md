@@ -29,6 +29,15 @@ Documentation is available through appledoc. This can be generating by running t
 ./Scripts/build-docs.sh
 ```
 
+Tests
+-----
+
+Tests can be run with the following command (from the root of the repository):
+
+```
+./Scripts/run-tests.sh
+```
+
 Classes
 -------
 
@@ -163,15 +172,6 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(
   // End network activity.
   [[UIApplication sharedApplication] endNetworkActivity];
 });
-```
-
-Tests
------
-
-Tests can be run with the following command (from the root of the repository):
-
-```
-./Scripts/run-tests.sh
 ```
 
 Changelog
