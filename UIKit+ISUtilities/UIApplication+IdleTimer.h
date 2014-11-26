@@ -31,7 +31,7 @@
  * Disable the idle timer.
  * 
  * Internally this keeps a count of the number of calls to `disableIdleTimer` and `enableIdleTimer` and disables
- * the application idle timer when there is one-or-more active request.
+ * the application idle timer when there is one-or-more active request to disable the timer.
  * 
  * Thread-safe.
  */
@@ -41,7 +41,7 @@
  * Enable the idle timer.
  *
  * Internally this keeps a count of the number of calls to `disableIdleTimer` and `enableIdleTimer` and only re-enables
- * the application idle timer when there are no active requests.
+ * the application idle timer when there are no active requests to disable the timer.
  * 
  * Thread-safe.
  */
