@@ -90,6 +90,7 @@
 {
     NSParameterAssert(state);
     NSParameterAssert(buffer);
+    NSParameterAssert(len);
     
     // Initialization.
     if (state->state == 0) {
@@ -100,7 +101,9 @@
         [self removeMissingObjects];
     }
     
-    // Provide items in bocks matching buffer size (len).
+    // If there are still items to add to the list (self->state < self.items.count) we provide items one-by-one to by
+    // through the buffer across subsequent calls to countByEnumeratingState:objects:count:. Doing it this way ensures
+    // we are never artificially retaining more than one weak reference at a time.
     if (state->state < self.items.count) {
         
         // Use the provided buffer.
@@ -114,8 +117,7 @@
             object = item.object;
             buffer[0] = item.object;
             state->state++;
-        } while (object == nil &&
-                 state->state < self.items.count);
+        } while (object == nil && state->state < self.items.count);
         
         // Check if we've reached the end of the list and if not, and we have a valid item, then capture the item and
         // return it to the enumeration.
