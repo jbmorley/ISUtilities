@@ -26,26 +26,25 @@
 
 + (NSDictionary *)dictionaryWithJSON:(NSString *)JSON
 {
-  NSData *data = [JSON dataUsingEncoding:NSUTF8StringEncoding];
-  NSDictionary *dictionary =
-  [NSJSONSerialization JSONObjectWithData:data
-                                  options:0
-                                    error:nil];
-  return dictionary;
+    NSData *data = [JSON dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *dictionary =
+    [NSJSONSerialization JSONObjectWithData:data
+                                    options:0
+                                      error:nil];
+    return dictionary;
 }
-
 
 - (NSString *)JSON
 {
-  NSData* data =
-  [NSJSONSerialization dataWithJSONObject:self
-                                  options:0
-                                    error:nil];
-  NSString* string =
-  [[NSString alloc] initWithBytes:[data bytes]
-                           length:[data length]
-                         encoding:NSUTF8StringEncoding];
-  return string;
+    NSData* data =
+    [NSJSONSerialization dataWithJSONObject:self
+                                    options:0
+                                      error:nil];
+    NSString* string =
+    [[NSString alloc] initWithBytes:[data bytes]
+                             length:[data length]
+                           encoding:NSUTF8StringEncoding];
+    return string;
 }
 
 @end

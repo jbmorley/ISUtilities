@@ -24,15 +24,13 @@
 
 @implementation NSObject (Threads)
 
-
 - (void)runOnMainThread:(void (^)(void))block
 {
-  if ([NSThread isMainThread]) {
-    block();
-  } else {
-    dispatch_sync(dispatch_get_main_queue(), block);
-  }
+    if ([NSThread isMainThread]) {
+        block();
+    } else {
+        dispatch_sync(dispatch_get_main_queue(), block);
+    }
 }
-
 
 @end

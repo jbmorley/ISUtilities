@@ -24,7 +24,7 @@
 #import "ISNotifier.h"
 
 @interface ISCancelToken () {
-  BOOL _cancelled;
+    BOOL _cancelled;
 }
 
 @property (nonatomic, strong) ISNotifier *notifier;
@@ -33,46 +33,40 @@
 
 @implementation ISCancelToken
 
-
 - (id)init
 {
-  self = [super init];
-  if (self) {
-    self.notifier = [ISNotifier new];
-  }
-  return self;
+    self = [super init];
+    if (self) {
+        self.notifier = [ISNotifier new];
+    }
+    return self;
 }
-
 
 - (void)cancel
 {
-  @synchronized(self) {
-    if (!_cancelled) {
-      _cancelled = YES;
-      [self.notifier notify:@selector(tokenDidCancel)];
+    @synchronized(self) {
+        if (!_cancelled) {
+            _cancelled = YES;
+            [self.notifier notify:@selector(tokenDidCancel)];
+        }
     }
-  }
 }
-
 
 - (BOOL)isCancelled
 {
-  @synchronized(self) {
-    return _cancelled;
-  }
+    @synchronized(self) {
+        return _cancelled;
+    }
 }
-
 
 - (void)addObserver:(id)observer
 {
-  [self.notifier addObserver:observer];
+    [self.notifier addObserver:observer];
 }
-
 
 - (void)removeObserver:(id)observer
 {
-  [self.notifier removeObserver:observer];
+    [self.notifier removeObserver:observer];
 }
-
 
 @end

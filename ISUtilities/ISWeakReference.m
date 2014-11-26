@@ -7,10 +7,10 @@
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be included in
 // all copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -18,7 +18,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// 
+//
 
 #import "ISWeakReference.h"
 
@@ -30,52 +30,45 @@
 
 @implementation ISWeakReference
 
-
 + (ISWeakReference *)referenceWithObject:(id)object
 {
-  return [[ISWeakReference alloc] initWithObject:object];
+    return [[ISWeakReference alloc] initWithObject:object];
 }
-
 
 - (id)initWithObject:(id)object
 {
-  self = [super init];
-  if (self) {
-    _object = object;
-  }
-  return self;
+    self = [super init];
+    if (self) {
+        _object = object;
+    }
+    return self;
 }
-
 
 - (BOOL)isEqual:(id)object
 {
-  if (object == self) {
-    return YES;
-  } else if ([object class] == [self class]) {
-    ISWeakReference *otherObject = (ISWeakReference *)object;
-    return [otherObject.object isEqual:self.object];
-  } else {
-    return [self.object isEqual:object];
-  }
+    if (object == self) {
+        return YES;
+    } else if ([object class] == [self class]) {
+        ISWeakReference *otherObject = (ISWeakReference *)object;
+        return [otherObject.object isEqual:self.object];
+    } else {
+        return [self.object isEqual:object];
+    }
 }
-
 
 - (NSUInteger)hash
 {
-  return [self.object hash];
+    return [self.object hash];
 }
-
 
 - (void)capture
 {
-  self.strongObject = self.object;
+    self.strongObject = self.object;
 }
-
 
 - (void)uncapture
 {
-  self.strongObject = nil;
+    self.strongObject = nil;
 }
-
 
 @end

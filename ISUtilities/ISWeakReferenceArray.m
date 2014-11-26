@@ -31,155 +31,145 @@
 
 @implementation ISWeakReferenceArray
 
-
 + (instancetype)arrayWithCapacity:(NSUInteger)numItems
 {
-  return [[self alloc] initWithCapacity:numItems];
+    return [[self alloc] initWithCapacity:numItems];
 }
-
 
 - (instancetype)init
 {
-  self = [super init];
-  if (self) {
-    _items = [[NSMutableArray alloc] init];
-  }
-  return self;
+    self = [super init];
+    if (self) {
+        _items = [[NSMutableArray alloc] init];
+    }
+    return self;
 }
-
 
 - (instancetype)initWithCapacity:(NSUInteger)numItems
 {
-  self = [super init];
-  if (self) {
-    _items = [NSMutableArray arrayWithCapacity:numItems];
-  }
-  return self;
+    self = [super init];
+    if (self) {
+        _items = [NSMutableArray arrayWithCapacity:numItems];
+    }
+    return self;
 }
-
 
 - (BOOL)containsObject:(id)anObject
 {
-  return [self.items containsObject:[ISWeakReference referenceWithObject:anObject]];
+    return [self.items containsObject:[ISWeakReference referenceWithObject:anObject]];
 }
-
 
 - (void)addObject:(id)anObject
 {
-  [self.items addObject:[ISWeakReference referenceWithObject:anObject]];
-  [self removeMissingObjects];
+    [self.items addObject:[ISWeakReference referenceWithObject:anObject]];
+    [self removeMissingObjects];
 }
-
 
 - (void)removeObject:(id)anObject
 {
-  NSMutableIndexSet *indexes = [NSMutableIndexSet indexSet];
-  for (NSUInteger i = 0; i < self.items.count; i++) {
-    ISWeakReference *reference = self.items[i];
-    if (reference.object == anObject) {
-      [indexes addIndex:i];
+    NSMutableIndexSet *indexes = [NSMutableIndexSet indexSet];
+    for (NSUInteger i = 0; i < self.items.count; i++) {
+        ISWeakReference *reference = self.items[i];
+        if (reference.object == anObject) {
+            [indexes addIndex:i];
+        }
     }
-  }
-  [self.items removeObjectsAtIndexes:indexes];
-  [self removeMissingObjects];
+    [self.items removeObjectsAtIndexes:indexes];
+    [self removeMissingObjects];
 }
-
 
 - (NSUInteger)count
 {
-  [self removeMissingObjects];
-  return self.items.count;
+    [self removeMissingObjects];
+    return self.items.count;
 }
-
 
 - (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state
                                   objects:(id __unsafe_unretained [])buffer
                                     count:(NSUInteger)len
 {
-  // Initialization.
-  if (state->state == 0) {
-    // Ignoring mutations.
-    state->mutationsPtr = &state->extra[0];
-    // Only remove nil objects in the initialization state to avoid the
-    // risk of mutations from releases on other threads.
-    [self removeMissingObjects];
-  }
-  
-  // Provide items in bocks matching buffer size (len).
-  if (state->state < self.items.count) {
-    
-    // Use the provided buffer.
-    state->itemsPtr = buffer;
-    
-    // Find the next strong reference.
-    __strong NSObject *object = nil;
-    ISWeakReference *item;
-    do {
-      item = [self.items objectAtIndex:(state->state)];
-      object = item.object;
-      buffer[0] = item.object;
-      state->state++;
-    } while (object == nil &&
-             state->state < self.items.count);
-    
-    // Check if we've reached the end of the list and if not,
-    // and we have a valid item, then capture the item and return
-    // it to the enumeration.
-    if (object &&
-        state->state <= self.items.count) {
-      // Capture the object and schedule an uncapture.
-      [item capture];
-      [self performSelector:@selector(uncapture:)
-                   onThread:[NSThread currentThread]
-                 withObject:item
-              waitUntilDone:NO];
-      return 1;
-    } else {
-      return 0;
+    // Initialization.
+    if (state->state == 0) {
+        // Ignoring mutations.
+        state->mutationsPtr = &state->extra[0];
+        // Only remove nil objects in the initialization state to avoid the
+        // risk of mutations from releases on other threads.
+        [self removeMissingObjects];
     }
     
-  } else {
-    
-    // Indicate that we're done.
-    return 0;
-    
-  }
+    // Provide items in bocks matching buffer size (len).
+    if (state->state < self.items.count) {
+        
+        // Use the provided buffer.
+        state->itemsPtr = buffer;
+        
+        // Find the next strong reference.
+        __strong NSObject *object = nil;
+        ISWeakReference *item;
+        do {
+            item = [self.items objectAtIndex:(state->state)];
+            object = item.object;
+            buffer[0] = item.object;
+            state->state++;
+        } while (object == nil &&
+                 state->state < self.items.count);
+        
+        // Check if we've reached the end of the list and if not,
+        // and we have a valid item, then capture the item and return
+        // it to the enumeration.
+        if (object &&
+            state->state <= self.items.count) {
+            // Capture the object and schedule an uncapture.
+            [item capture];
+            [self performSelector:@selector(uncapture:)
+                         onThread:[NSThread currentThread]
+                       withObject:item
+                    waitUntilDone:NO];
+            return 1;
+        } else {
+            return 0;
+        }
+        
+    } else {
+        
+        // Indicate that we're done.
+        return 0;
+        
+    }
 }
-
 
 - (void)uncapture:(ISWeakReference *)item
 {
-  [item uncapture];
+    [item uncapture];
 }
-
 
 - (void)removeMissingObjects
 {
-  NSMutableIndexSet *indexes = [NSMutableIndexSet indexSet];
-  for (NSUInteger i = 0; i < self.items.count; i++) {
-    ISWeakReference *reference = self.items[i];
-    if (reference.object == nil) {
-      [indexes addIndex:i];
+    NSMutableIndexSet *indexes = [NSMutableIndexSet indexSet];
+    for (NSUInteger i = 0; i < self.items.count; i++) {
+        ISWeakReference *reference = self.items[i];
+        if (reference.object == nil) {
+            [indexes addIndex:i];
+        }
     }
-  }
-  [self.items removeObjectsAtIndexes:indexes];
+    [self.items removeObjectsAtIndexes:indexes];
 }
 
 - (void)enumerateObjectsUsingBlock:(void (^)(id obj, NSUInteger idx, BOOL *stop))block
 {
-  NSUInteger idx = 0;
-  BOOL stop = NO;
-  for (ISWeakReference *reference in self.items) {
-    id object = reference.object;
-    if (object == nil) {
-      continue;
+    NSUInteger idx = 0;
+    BOOL stop = NO;
+    for (ISWeakReference *reference in self.items) {
+        id object = reference.object;
+        if (object == nil) {
+            continue;
+        }
+        block(object, idx, &stop);
+        if (stop) {
+            break;
+        }
+        idx++;
     }
-    block(object, idx, &stop);
-    if (stop) {
-      break;
-    }
-    idx++;
-  }
 }
 
 @end
