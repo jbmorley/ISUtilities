@@ -172,35 +172,6 @@ Thread-safe category for managing the UIApplication idle timer by simply countin
 [[UIApplication sharedApplication] enableIdleTimer];
 ```
 
-
-### UIView+Utilities
-
-A convenience category on UIView offering three bits of functionality:
-
-#### containsCurrentFirstResponder
-
-```objc
-- (BOOL)containsCurrentFirstResponder
-```
-
-Returns `YES` if the UIView or any of its subviews is the current first responder, `NO` otherwise.
-
-#### resignCurrentFirstResponder
-
-```objc
-- (BOOL)resignCurrentFirstResponder
-```
-
-Resigns the first responder for the  UIView and any of its subviews. Returns `YES` if a first responder was found and successfully resigned, `NO` otherwise.
-
-#### hasSuperviewOfKindOfClass:
-
-```objc
-- (BOOL)hasSuperviewOfKindOfClass:(Class)aClass
-```
-
-Walks the UIView's superviews and returns `YES` if any are of kind of class `aClass`, `NO` otherwise.
-
 Tests
 -----
 
