@@ -22,8 +22,21 @@
 
 #import <Foundation/Foundation.h>
 
+/**
+ * Category for checking whether an NSObject can be serialized to file.
+ */
 @interface NSObject (Serialize)
 
+/**
+ * Determines if an object can be serialized to file using the `writeToFile:atomically:` and `writeToURL:atomically:`
+ * methods.
+ *
+ * This can prove userful if it is necessary to ensure that an NSDictionary or NSArray and its contents can be safely
+ * stored to file. It works by validating that every object is an instance of `NSData`, `NSDate`, `NSNumber`,
+ * `NSString`, `NSArray`, or `NSDictionary` (as described in the documentation for `NSArray`  and `NSDictionary`).
+ *
+ * @return YES if the object can be serialized to a file. NO otherwise.
+ */
 - (BOOL)canWriteToFile;
 
 @end

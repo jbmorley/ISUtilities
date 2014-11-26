@@ -50,26 +50,6 @@ NSDictionary *inDict = [NSDictionary dictionaryWithJSON:json];
 NSLog(@"Title: %@", outDict[@"title"]); // Title: cheese
 ```
 
-
-### NSObject+Serialize
-
-Category for checking whether an NSObject can be serialized using the `writeToFile:atomically:` and `writeToURL:atomically:` methods:
-
-```objc
-#import <ISUtilities/ISUtilities.h>
-
-// Dictionary containing safe objects.
-NSDictionary *valid = @{@"items": @[@"one", @"two", @"three"]};
-BOOL checkValid = [valid canWriteToFile]; // YES
-
-// Dictionary containing unsafe objects.
-NSArry *invalid = @[[YourCustomClass new], [YourCustomClass new]];
-BOOL checkInvalid = [invalid canWriteToFile]; // NO
-```
-
-This can prove userful if it is necessary to ensure that an NSDictionary or NSArray and its contents can be safely stored to file. It works by validating that every object is an instance of `NSData`, `NSDate`, `NSNumber`, `NSString`, `NSArray`, or `NSDictionary` (as described in the documentation for `NSArray`  and `NSDictionary`).
-
-
 Changelog
 ---------
 
