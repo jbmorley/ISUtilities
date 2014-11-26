@@ -15,9 +15,9 @@ Pod::Spec.new do |s|
 
   s.requires_arc = true
 
-  s.subspec 'UIKit' do |ss|
-    ss.ios.source_files = 'UIKit+ISUtilities/*.{h,m}'
-    ss.osx.source_files = ''
+  s.subspec 'UIKit+ISUtilities' do |ss|
+    ss.platform = :ios
+    ss.source_files = 'UIKit+ISUtilities/*.{h,m}'
   end
 
 end

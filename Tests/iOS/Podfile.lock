@@ -1,7 +1,7 @@
 PODS:
   - ISUtilities (1.1.0):
-    - ISUtilities/UIKit (= 1.1.0)
-  - ISUtilities/UIKit (1.1.0)
+    - ISUtilities/UIKit+ISUtilities (= 1.1.0)
+  - ISUtilities/UIKit+ISUtilities (1.1.0)
 
 DEPENDENCIES:
   - ISUtilities (from `../../`)
@@ -11,6 +11,6 @@ EXTERNAL SOURCES:
     :path: ../../
 
 SPEC CHECKSUMS:
-  ISUtilities: b8944b62be1f422426447db1429087065bd07e8d
+  ISUtilities: 25137d84702a80e074a8c683903fa7d101389e28
 
 COCOAPODS: 0.35.0
