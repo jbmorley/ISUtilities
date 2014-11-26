@@ -33,23 +33,6 @@ Tests can be run by executing the following command from the root of the reposit
 ./Scripts/run-tests.sh
 ```
 
-### NSDictionary+JSON
-
-JSON serialization and de-serialization category for NSDictionary:
-
-```objc
-#import <ISUtilities/ISUtilities.h>
-
-// Serialization.
-NSDictionary *outDict = @{@"title": @"cheese"};
-NSString *json = [outDict JSON];
-NSLog(@"%@", json); // {"title": "cheese"}
-
-// De-serialization.
-NSDictionary *inDict = [NSDictionary dictionaryWithJSON:json];
-NSLog(@"Title: %@", outDict[@"title"]); // Title: cheese
-```
-
 Changelog
 ---------
 

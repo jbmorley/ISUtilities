@@ -22,9 +22,27 @@
 
 #import <Foundation/Foundation.h>
 
+/**
+ * JSON serialization and de-serialization category for NSDictionary.
+ */
 @interface NSDictionary (JSON)
 
-+ (NSDictionary *)dictionaryWithJSON:(NSString *)JSON;
+/**
+ * Deserialize an NSDictionary from a string containing JSON.
+ * 
+ * @param JSON String containing JSON.
+ * @param error If an error occurs, upon return contains an NSError object that describes the problem.
+ *
+ * @return Newly created `NSDictionary` containing containing the JSON data. `nil` if it was not possible to decode the
+ * JSON.
+ */
++ (NSDictionary *)dictionaryWithJSON:(NSString *)JSON error:(NSError **)error;
+
+/**
+ * Serialize an NSDictionary as a JSON string.
+ *
+ * @return String containing JSON representation of the dictionary.
+ */
 - (NSString *)JSON;
 
 @end

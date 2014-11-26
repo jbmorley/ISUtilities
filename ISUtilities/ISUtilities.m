@@ -22,6 +22,8 @@
 
 #import "ISUtilities.h"
 
+NSString *const ISUtilitiesErrorDomain = @"ISUtilitiesErrorDomain";
+
 __attribute__ ((format (__NSString__, 2, 3)))
 void ISAssert(BOOL condition, NSString *desc, ...)
 {

@@ -21,29 +21,39 @@
 //
 
 #import "NSDictionary+JSON.h"
+#import "ISUtilities.h"
 
 @implementation NSDictionary (JSON)
 
-+ (NSDictionary *)dictionaryWithJSON:(NSString *)JSON
++ (NSDictionary *)dictionaryWithJSON:(NSString *)JSON error:(NSError **)error
 {
     NSData *data = [JSON dataUsingEncoding:NSUTF8StringEncoding];
-    NSDictionary *dictionary =
-    [NSJSONSerialization JSONObjectWithData:data
-                                    options:0
-                                      error:nil];
+    
+    NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:error];
+    
+    NSLog(@"Decoded: %@", dictionary);
+    NSLog(@"Decoded Class: %@", NSStringFromClass([dictionary class]));
+    
+    if (dictionary == nil) {
+        return nil;
+    }
+    
+    if (!([[dictionary class] isKindOfClass:[NSDictionary class]] ||
+          [[dictionary class] isSubclassOfClass:[NSDictionary class]])) {
+        
+        if (error) {
+            *error = [NSError errorWithDomain:ISUtilitiesErrorDomain code:ISUtilitiesErrorInvalidClass userInfo:nil];
+        }
+        
+        return nil;
+    }
     return dictionary;
 }
 
 - (NSString *)JSON
 {
-    NSData* data =
-    [NSJSONSerialization dataWithJSONObject:self
-                                    options:0
-                                      error:nil];
-    NSString* string =
-    [[NSString alloc] initWithBytes:[data bytes]
-                             length:[data length]
-                           encoding:NSUTF8StringEncoding];
+    NSData* data = [NSJSONSerialization dataWithJSONObject:self options:0 error:nil];
+    NSString* string = [[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSUTF8StringEncoding];
     return string;
 }
 

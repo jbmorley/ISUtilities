@@ -31,6 +31,23 @@
 #import "ISCancelable.h"
 #import "ISCancelToken.h"
 
+/**
+ * Indicates an error occurred in ISUtilities.
+ */
+extern NSString *const ISUtilitiesErrorDomain;
+
+/**
+ * Values that are returned as the error code property of an `NSError` object.
+ */
+enum {
+    
+    /**
+     * Indicates that an unexpected class was received.
+     */
+    ISUtilitiesErrorInvalidClass = 0,
+    
+};
+
 void ISAssert(BOOL condition, NSString *desc, ...);
 
 void ISAssertUnreached(NSString *message, ...);
