@@ -36,6 +36,15 @@ Tests can be run by executing the following command from the root of the reposit
 Changelog
 ---------
 
+### Version 1.1.2
+
+- Exposing the error when decoding JSON in the `NSDictionary+JSON` category.
+- Adding unit tests for JSON encoding and decoding.
+
+### Version 1.1.1
+
+- Minor tweaks and documentation improvements.
+
 ### Version 1.1.0
 
 - Adding appledoc.
