@@ -7,10 +7,10 @@ set -u
 
 pushd Tests/iOS
 pod update
-xcodebuild -sdk "$simulator_sdk" -workspace ISUtilitiesTests.xcworkspace -scheme ISUtilitiesTests -destination "name=iPhone 6" clean test
+xcodebuild -sdk "$simulator_sdk" -workspace ISUtilitiesTests.xcworkspace -scheme ISUtilitiesTests -destination "name=iPhone 6" clean test | xcpretty -c
 popd
 
 pushd Tests/OSX
 pod update
-xcodebuild -workspace ISUtilitiesTests.xcworkspace -scheme ISUtilitiesTests clean test
+xcodebuild -workspace ISUtilitiesTests.xcworkspace -scheme ISUtilitiesTests clean test | xcpretty -c
 popd
