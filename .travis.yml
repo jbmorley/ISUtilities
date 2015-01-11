@@ -1,4 +1,5 @@
 language: objective-c
-podfile: Tests/iOS/Podfile
 xcode_workspace: Tests/iOS/ISUtilitiesTests.xcworkspace
+xcode_scheme: ISUtilitiesTests
 xcode_sdk: iphonesimulator8.1
+podfile: Tests/iOS/Podfile
