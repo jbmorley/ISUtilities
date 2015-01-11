@@ -1,2 +1,3 @@
 language: objective-c
-install: ./Scripts/run-tests.sh
+podfile: Tests/iOS/Podfile
+xcode_workspace: Tests/iOS/ISUtilitiesTests.xcworkspace
