@@ -3,6 +3,8 @@ ISUtilities
 
 Objective-C utility classes used in various InSeven Limited libraries and projects.
 
+[![Build Status](https://travis-ci.org/jbmorley/ISUtilities.svg)](https://travis-ci.org/jbmorley/ISUtilities)
+
 Installation
 ------------
 
